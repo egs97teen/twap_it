@@ -1,0 +1,11 @@
+ body, html {
+    height: 100%;
+    background-color: #efe7e1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+ 
+ html {
+ 	font-size: 14px;
+ }

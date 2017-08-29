@@ -1,0 +1,301 @@
+ 
+ body, html {
+    height: 100%;
+    background-color: #efe7e1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+ 
+ html {
+ 	font-size: 14px;
+ }
+ 
+ #loginForm {
+ 	min-width: 300px;
+ 	width: 20vw;
+ 	position: fixed;
+ 	top: 18vh;
+	left: 38vw;
+	background: white;
+	padding:3vh 3vw;
+	border-radius: 8px;
+	border: 1px solid #CCCCCC;
+	opacity: .9;
+ }
+
+#button {
+	background-color: #a77c5c;
+	color: #FFFFFF;
+	border-radius: 5px;
+	border: none;
+	padding: 7px 12px 7px 12px;
+}
+
+#messageContainer {
+	margin: 3vh 1vw;
+}
+
+input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([readonly]) + label {
+            color: #a77c5c; 
+        }
+
+        
+input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]) {
+            border-bottom: 1px solid #a77c5c;
+            box-shadow: 0 1px 0 0 #a77c5c; 
+        }
+
+a {
+	color: #5c87a7;
+}
+
+p {
+	text-align: center;
+	margin-top: 15px;
+}
+
+.popup {
+	width:430px;
+	height:180px;
+	background:none;
+	top: 5px;
+	left: -430px;
+	position:fixed;
+	border-radius:5px;
+	transition: 0.5s;
+}
+
+
+.rectangle-speech-border {
+  position:relative;
+  padding:25px 15px;
+  margin:1em 0 3em;
+  border:5px solid #A6A6A6;
+  text-align:center;
+  color:#333;
+  background:#fff;
+  /* css3 */
+  -webkit-border-radius:20px;
+  -moz-border-radius:20px;
+  border-radius:20px;
+}
+
+/* creates larger curve */
+.rectangle-speech-border:before {
+  content:"";
+  position:absolute;
+  z-index:10;
+  bottom:-30px;
+  left:50px;
+  width:50px;
+  height:25px;
+  border-style:solid;
+  border-width:0 5px 5px 0;
+  border-color:#A6A6A6;
+  background:#FFFFFF;
+  /* css3 */
+  -webkit-border-bottom-right-radius:80px 50px;
+  -moz-border-radius-bottomright:80px 50px;
+  border-bottom-right-radius:80px 50px;
+  /* reduce the damage in FF3.0 */
+  display:block;
+}
+
+/* creates smaller curve */
+.rectangle-speech-border:after {
+  content:"";
+  position:absolute;
+  z-index:10;
+  bottom:-30px;
+  left:50px;
+  width:20px;
+  height:25px;
+  border-style:solid;
+  border-width:0 5px 5px 0;
+  border-color:#A6A6A6;
+  background:#efe7e1;
+  /* css3 */
+  -webkit-border-bottom-right-radius:40px 50px;
+  -moz-border-radius-bottomright:40px 50px;
+  border-bottom-right-radius:40px 50px;
+  /* reduce the damage in FF3.0 */
+  display:block;
+}
+
+/* creates a small circle to produce a rounded point where the two curves meet */
+.rectangle-speech-border > :first-child:before {
+  content:"";
+  position:absolute;
+  bottom:-30px;
+  left:49px;
+  width:5px;
+  height:5px;
+  background:#A6A6A6;
+  /* css3 */
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  border-radius:10px;
+}
+
+/* creates a white rectangle to cover part of the oval border*/
+.rectangle-speech-border > :first-child:after {
+  content:"";
+  position:absolute;
+  bottom:-5px;
+  left:70px;
+  width:25px;
+  height:15px;
+  background:#fff;
+}
+
+.dots {
+  font-size: 45px;
+}
+
+.dots:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(6,end) 1200ms infinite;      
+  animation: ellipsis steps(6,end) 1200ms infinite;
+  content: "\2026"; /* ascii code for the ellipsis character */
+  width: 0px;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 1.25em;    
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 1.25em;    
+  }
+}
+
+span {
+	font-size: 44px;
+	font-family: Courier New;
+	margin: 0px 20px 0px 20px;
+}
+
+.popup2 {
+	width:430px;
+	height:180px;
+	background:none;
+	bottom: 5px;
+	right: -430px;
+	position:fixed;
+	border-radius:5px;
+	transition: 0.5s;
+}
+
+.rectangle-speech-border2 {
+  position:relative;
+  padding:25px 15px;
+  margin:1em 0 3em;
+  border:5px solid #A6A6A6;
+  text-align:center;
+  color:#333;
+  background:#fff;
+  /* css3 */
+  -webkit-border-radius:20px;
+  -moz-border-radius:20px;
+  border-radius:20px;
+}
+
+/* creates larger curve */
+.rectangle-speech-border2:before {
+  content:"";
+  position:absolute;
+  z-index:10;
+  bottom:-30px;
+  right:50px;
+  width:50px;
+  height:25px;
+  border-style:solid;
+  border-width:0px 0px 5px 5px;
+  border-color:#A6A6A6;
+  background:#FFFFFF;
+  /* css3 */
+  -webkit-border-bottom-left-radius:80px 50px;
+  -moz-border-radius-bottomleft:80px 50px;
+  border-bottom-left-radius:80px 50px;
+  /* reduce the damage in FF3.0 */
+  display:block;
+}
+
+/* creates smaller curve */
+.rectangle-speech-border2:after {
+  content:"";
+  position:absolute;
+  z-index:10;
+  bottom:-30px;
+  right:50px;
+  width:20px;
+  height:25px;
+  border-style:solid;
+  border-width:0px 0px 5px 5px;
+  border-color:#A6A6A6;
+  background:#efe7e1;
+  /* css3 */
+  -webkit-border-bottom-left-radius:40px 50px;
+  -moz-border-radius-bottomleft:40px 50px;
+  border-bottom-left-radius:40px 50px;
+  /* reduce the damage in FF3.0 */
+  display:block;
+}
+
+/* creates a small circle to produce a rounded point where the two curves meet */
+.rectangle-speech-border2 > :first-child:before {
+  content:"";
+  position:absolute;
+  bottom:-30px;
+  right:49px;
+  width:5px;
+  height:5px;
+  background:#A6A6A6;
+  /* css3 */
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  border-radius:10px;
+}
+
+/* creates a white rectangle to cover part of the oval border*/
+.rectangle-speech-border2 > :first-child:after {
+  content:"";
+  position:absolute;
+  bottom:-5px;
+  right:70px;
+  width:25px;
+  height:15px;
+  background:#fff;
+}
+
+.dots2 {
+  font-size: 45px;
+}
+
+.dots2:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(6,end) 1200ms infinite;      
+  animation: ellipsis steps(6,end) 1200ms infinite;
+  content: "\2026"; /* ascii code for the ellipsis character */
+  width: 0px;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 1.25em;    
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 1.25em;    
+  }
+}
