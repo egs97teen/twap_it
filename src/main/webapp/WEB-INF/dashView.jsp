@@ -315,12 +315,18 @@
 	map.mapTypes.set('styled_map', styledMapType);
 	map.setMapTypeId('styled_map');
       
+    function initMap() {
+	  console.log("INITIATING MAP");
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8
+      });
       infoWindow = new google.maps.InfoWindow;
       geocoder = new google.maps.Geocoder;
 
       // Try HTML5 geolocation.
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
+        	// stop the gif here and load the page normally
           var pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
@@ -337,7 +343,7 @@
           infoWindow.open(map);
           map.setCenter(pos);
         }, function() {
-          handleLocationError(true, infoWindow, map.getCenter());
+          	handleLocationError(true, infoWindow, map.getCenter());
         });
       } else {
         // Browser doesn't support Geolocation
