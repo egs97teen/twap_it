@@ -11,7 +11,7 @@
 	<title>Twap It</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/dash.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/user.css"/>
 	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -67,9 +67,38 @@
 </div>
 </nav>
 
-<!-- USER INFO -->
-
-
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8">
+			<div class="row">
+				<!-- USER INFO -->
+<%-- 				<img id="pic" src="${currentUser.imgUrl}" alt="">
+				<div id="info">
+					<h2>${currentUser.name}</h2>
+					<p>${currentUser.email}</p>
+					<p><small class="text-muted">${currentUser.updatedAt}</small></p>
+				</div> --%>
+				<div class="card hovercard">
+					<div class="cardheader">
+					</div>
+					<div class="avatar">
+						<img alt="" src="${currentUser.imgUrl}">
+					</div>
+					<div class="info">
+						<div class="title">${currentUser.name}</div>
+						<p>${currentUser.email}</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+			</div>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+</div>
 
 	<!-- LOGOUT -->
 	<form id="logoutForm" method="POST" action="/logout">
@@ -82,6 +111,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
 <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
-<script src="/js/login.js"></script>
+<script src="/js/user.js"></script>
 </body>
 </html>
