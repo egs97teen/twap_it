@@ -111,8 +111,8 @@
 	<div class="collapse navbar-collapse">
 	<form class="form-inline">
 		<div class="input-group">
-			<span class="input-group-addon" id="basic-addon1">@</span>
-			<input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+			<span class="input-group-addon" id="basic-addon1">#</span>
+			<input type="text" class="form-control" placeholder="Search tags..." aria-label="tag" aria-describedby="basic-addon1">
 		</div>
 	</form>
 	

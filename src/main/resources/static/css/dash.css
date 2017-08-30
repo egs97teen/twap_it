@@ -6,12 +6,12 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
- 
- html {
- 	font-size: 14px;
- }
- 
- #profPic {
- 	height: 5vh;
- 	width: 3vw;
- }
+
+html {
+	font-size: 13px;
+}
+
+#profPic {
+	height: 5vh;
+	width: 3vw;
+}
