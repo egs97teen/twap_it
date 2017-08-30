@@ -49,10 +49,10 @@
 	<!-- MAP -->
 	<script>
 	// Note: This example requires that you consent to location sharing when
-    // prompted by your browser. If you see the error "The Geolocation service
+    // prompted by your` browser. If you see the error "The Geolocation service
     // failed.", it means you probably did not give permission for the browser to
     // locate you.
-    var map, infoWindow;
+    var map, infoWindow, geocoder;
 	
 	// Initiates the map
     function initMap() {
@@ -60,6 +60,7 @@
         zoom: 8
       });
       infoWindow = new google.maps.InfoWindow;
+      geocoder = new google.maps.Geocoder;
 
       // Try HTML5 geolocation.
       if (navigator.geolocation) {
@@ -68,6 +69,9 @@
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
+          
+          console.log("LAT=" + pos.lat);
+          console.log("LON=" + pos.lng);
 
           infoWindow.setPosition(pos);
           infoWindow.setContent('You are here.');
@@ -85,6 +89,8 @@
       map.addListener('click', function(event) {
     	  	//Runs function to add a marker to the map
     	    placeMarkerAndPanTo(event.latLng, map);
+       	var latLng = event.latLng.lat() + "," + event.latLng.lng();
+    	    geocodeLatLng(latLng, map, infoWindow);
     	  	var lat = event.latLng.lat();
     	  	var lng = event.latLng.lng();
     	  	console.log("LAT=" + lat + " LONG=" + lng);
@@ -113,6 +119,28 @@
 	     });
 	   }
 	 };
+	 
+	 // Locates the address of area user is clicking
+	 function geocodeLatLng(geocoder, map, infowindow) {
+		 var x = new google.maps.Geocoder();
+		  var latlngStr = geocoder.split(',', 2);
+		  var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+		  x.geocode({'location': latlng}, function(results, status) {
+		    if (status === 'OK') {
+		      if (results[0]) {
+		        map.setZoom(map.zoom);
+		        marker.setPosition(latlng);
+		        console.log(results[0].formatted_address);
+		        infowindow.setContent(results[0].formatted_address);
+		        infowindow.open(map, marker);
+		      } else {
+		        window.alert('No results found');
+		      }
+		    } else {
+		      window.alert('Geocoder failed due to: ' + status);
+		    }
+		  });
+		}
 	</script>
 	<script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApmlEwj8rfIV3G51dsV5VTeO9tOOkBoX4&callback=initMap">
