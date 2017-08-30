@@ -302,24 +302,16 @@
                }
             ],
             {name: 'Map'});
-	
-	
-		map = new google.maps.Map(document.getElementById('map'), {
+
+	  map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 10,
 			mapTypeControlOptions: {
 				mapTypeIds: ['satellite','styled_map']
 			}
-	});
-      
-	// Tells API to display map with custom style
-	map.mapTypes.set('styled_map', styledMapType);
-	map.setMapTypeId('styled_map');
-      
-    function initMap() {
-	  console.log("INITIATING MAP");
-      map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 8
-      });
+		});
+	  // Tells API to display map with custom style
+	  map.mapTypes.set('styled_map', styledMapType);
+	  map.setMapTypeId('styled_map');
       infoWindow = new google.maps.InfoWindow;
       geocoder = new google.maps.Geocoder;
 
