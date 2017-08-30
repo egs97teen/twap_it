@@ -39,13 +39,55 @@
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<input id="logoutButton" type="submit" value="Logout" />
 	</form>
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
-<script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
-<script src="/js/login.js"></script>
+	
+	<!-- MODAL BUTTON -->
+	<button id="reportButton" class="btn btn-outline-danger" data-toggle="modal" data-target="#formModal">New Report</button>
+	
+	<!-- ---------- MODAL ---------- -->
+	<div class="modal fade" id="formModal" tabindex="s-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			    <div class="modal-header">
+			    		<h5 class="modal-title" id="formModalLabel">Twap-It</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+			    </div>
+				<div class="modal-body">
+					<form id="modalForm" action="/dashboard" method="POST" modelAttribute="report">
+						<textarea id="content" name="content" class="form-control" maxlength="200" rows="3" placeholder="What do you want to Twap™?"></textarea>
+						<input name="lat" type="hidden" id="lat" />
+						<input name="lon" type="hidden" id="lon" />
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+					</form>
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				  <button type="button" onclick="submitForm()" class="btn btn-success">Twap-It!</button>
+				     </div>
+			</div>
+		</div>
+	</div>
+<p id="char-count"></p>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
+	<script src="/js/login.js"></script>
+	
+	<!-- MODAL STUFF -->
+	<script>
+		$('#content').on('keyup', function() {
+			console.log('hello')
+		})
+		function submitForm() {
+			$('#modalForm').submit();
+			// TODO: modal disappear
+		}
+		
+	</script>
+	
 	<!-- MAP -->
 	<script>
 	// Note: This example requires that you consent to location sharing when
