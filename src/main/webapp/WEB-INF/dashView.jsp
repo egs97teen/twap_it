@@ -11,13 +11,30 @@
 	<title>Twap It</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/login.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/dash.css"/>
 	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 </head>
-
+<style>
+ #map {
+   width: 800px;
+   height: 500px;
+   background-color: grey;
+ }
+</style>
 <body>
-
-
+	<!-- MAP -->
+	<div id="map"></div>
+	
+	<!-- FORM TO SUBMIT A REPORT -->
+	<form id="reportForm" action="/submitForm" method="POST" modelAttribute="report">
+		<input name="lat" type="hidden" id="lat"/>
+		<input name="lon" type="hidden" id="lon"/>
+		<textarea id="content" name="content"></textarea>
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+		<input type="submit" value="Submit"/>
+	</form>
+	
+	<!-- LOGOUT -->
 	<form id="logoutForm" method="POST" action="/logout">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<input id="logoutButton" type="submit" value="Logout" />
@@ -29,5 +46,76 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
 <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
 <script src="/js/login.js"></script>
+	<!-- MAP -->
+	<script>
+	// Note: This example requires that you consent to location sharing when
+    // prompted by your browser. If you see the error "The Geolocation service
+    // failed.", it means you probably did not give permission for the browser to
+    // locate you.
+    var map, infoWindow;
+	
+	// Initiates the map
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8
+      });
+      infoWindow = new google.maps.InfoWindow;
+
+      // Try HTML5 geolocation.
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+
+          infoWindow.setPosition(pos);
+          infoWindow.setContent('You are here.');
+          infoWindow.open(map);
+          map.setCenter(pos);
+        }, function() {
+          handleLocationError(true, infoWindow, map.getCenter());
+        });
+      } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+      }
+      
+      // Creates a listener for any clicks on the map
+      map.addListener('click', function(event) {
+    	  	//Runs function to add a marker to the map
+    	    placeMarkerAndPanTo(event.latLng, map);
+    	  	var lat = event.latLng.lat();
+    	  	var lng = event.latLng.lng();
+    	  	console.log("LAT=" + lat + " LONG=" + lng);
+    	  });
+    }
+	
+	// Function to notify geolocation failure
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+      infoWindow.setPosition(pos);
+      infoWindow.setContent(browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.');
+      infoWindow.open(map);
+    }
+    
+	// Instantiates a marker to be placed on the map
+    var marker;
+ 	// Place and move marker on the map upon click
+	 function placeMarkerAndPanTo(latLng, map) {
+	   if (marker) {
+	     marker.setPosition(latLng);
+	   } else {
+	     marker = new google.maps.Marker({
+	       position: latLng,
+	       map: map
+	     });
+	   }
+	 };
+	</script>
+	<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApmlEwj8rfIV3G51dsV5VTeO9tOOkBoX4&callback=initMap">
+    </script>
 </body>
 </html>
