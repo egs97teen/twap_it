@@ -12,18 +12,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.debbie.twapit.models.Twap;
 import com.debbie.twapit.models.User;
+import com.debbie.twapit.services.TwapService;
 import com.debbie.twapit.services.UserService;
 import com.debbie.twapit.validators.UserValidator;
 
 @Controller
 public class UserController {
+	
 	private UserService userService;
 	private UserValidator userValidator;
+	private TwapService twapService;
 	
-	public UserController(UserService userService, UserValidator userValidator) {
+	public UserController(UserService userService, UserValidator userValidator, TwapService twapService) {
 		this.userService = userService;
 		this.userValidator = userValidator;
+		this.twapService = twapService;
 	}
 	
 	@RequestMapping("/login")
@@ -57,7 +62,6 @@ public class UserController {
 	@RequestMapping(value= {"/", "/reroute"})
 	public String profilePage(Principal principal) {
 		User currentUser = userService.findByEmail(principal.getName());
-		
 		if ((currentUser.getLevel()).equals("admin")) {
 			return "redirect:/dashboard";
 		} else if ((currentUser.getLevel()).equals("user")) {
@@ -68,10 +72,19 @@ public class UserController {
 	}
 	
 	@RequestMapping("/dashboard")
-	public String dashboard(Principal principal, Model model) {
+	public String dashboard(Principal principal, Model model, @ModelAttribute("twap") Twap twap) {
 		User currentUser = userService.findByEmail(principal.getName());
 		model.addAttribute("currentUser", currentUser);
-		
 		return "dashView";
 	}
+	
+	@PostMapping("/dashboard")
+	public String addContent(Principal principal, @ModelAttribute("twap") Twap twap) {
+		User currentUser = userService.findByEmail(principal.getName());
+		twap.setUser(currentUser);
+		twapService.saveTwap(twap);
+		return "redirect:/dashboard";
+	}
+	
+	
 }

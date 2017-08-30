@@ -92,15 +92,6 @@
 	<div id="map"></div>
 	<input id="pac-input"></input>
 	
-	<!-- FORM TO SUBMIT A REPORT -->
-	<form id="reportForm" action="/submitForm" method="POST" modelAttribute="report">
-		<input name="lat" type="hidden" id="lat"/>
-		<input name="lon" type="hidden" id="lon"/>
-		<textarea id="content" name="content"></textarea>
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		<input type="submit" value="Submit"/>
-	</form>
-	
 	<!-- LOGOUT -->
 	<form id="logoutForm" method="POST" action="/logout">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -110,7 +101,7 @@
 	<!-- MODAL BUTTON -->
 	<button id="reportButton" class="btn btn-outline-danger" data-toggle="modal" data-target="#formModal">New Report</button>
 	
-	<!-- ---------- MODAL ---------- -->
+	<!-- ---------- MODAL 1 ---------- -->
 	<div class="modal fade" id="formModal" tabindex="s-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -121,7 +112,7 @@
 					</button>
 			    </div>
 				<div class="modal-body">
-					<form id="modalForm" action="/dashboard" method="POST" modelAttribute="report">
+					<form id="modalForm" action="/dashboard" method="POST" modelAttribute="twap">
 						<textarea id="content" name="content" class="form-control" maxlength="200" rows="3" placeholder="What do you want to Twap™?"></textarea>
 						<input name="lat" type="hidden" id="lat" />
 						<input name="lon" type="hidden" id="lon" />
@@ -129,27 +120,56 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-				  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				  <button type="button" onclick="submitForm()" class="btn btn-success">Twap-It!</button>
-				     </div>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" onclick="submitForm()" class="btn btn-success">Twap-It!</button>
+				</div>
 			</div>
 		</div>
 	</div>
 	
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<!-- ---------- MODAL 2 ---------- -->
+	<div class="modal fade" id="radioModal" tabindex="s-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			    <div class="modal-header">
+			    		<h5 class="modal-title" id="formModalLabel">Twap-It</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+			    </div>
+				<div class="modal-body">
+					<div class="btn-group" data-toggle="buttons">
+						<label class="btn btn-outline-secondary active">
+							<input type="radio" name="options" id="option1" value="geo" checked>My Location
+						</label>
+						<label class="btn btn-outline-success">
+							<input type="radio" name="options" id="option2" value="marker">Marked Location
+						</label>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" onclick="submitRadio()" class="btn btn-success">Twap-It!</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
+<!-- 	<script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script> -->
 	<script src="/js/login.js"></script>
 	
 	<!-- MODAL STUFF -->
 	<script>
 		
-		function submitForm() {
+		/* function submitForm() {
+			
 			$('#modalForm').submit();
 			// TODO: modal disappear
-		}
+		} */
 		
 	</script>
 	
@@ -308,6 +328,9 @@
           
           console.log("LAT=" + pos.lat);
           console.log("LON=" + pos.lng);
+          
+          document.getElementById("lat").value = pos.lat;
+          document.getElementById("lon").value = pos.lng;
 
           infoWindow.setPosition(pos);
           infoWindow.setContent('You are here.');
@@ -415,6 +438,29 @@
 	   }
 	 };
 	 
+	 function submitForm() {
+		if ($('#content')[0].value == '') {
+			return false;
+		}
+		if (marker != undefined) {
+			$('#formModal').modal('hide');
+			$('#radioModal').modal('show');
+		} else {
+			$('#modalForm').submit();
+		}
+	}
+	 
+	 function submitRadio() {
+		 console.log($('#option1'))
+		if (!$('#option1')[0].checked) {
+			document.getElementById("lat").value = marker.getPosition().lat();
+			console.log(document.getElementById("lat").value)
+			document.getElementById("lon").value = marker.getPosition().lng();
+			console.log(document.getElementById("lon").value)
+		}
+		$('#modalForm').submit();
+	 }
+
 	 // Locates the address of area user is clicking
 	 function geocodeLatLng(geocoder, map, infowindow) {
 		 var x = new google.maps.Geocoder();
