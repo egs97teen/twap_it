@@ -88,6 +88,58 @@
 	}
 </style>
 <body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #F1F5F4;">
+	<span class="navbar-brand mb-0 navbar-text">
+		<img src="/img/logo.png"width="20" height="20" alt=""> Twap It
+	</span>
+
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	<span class="navbar-toggler-icon"></span>
+	</button>
+	
+	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+		<div class="navbar-nav">
+			<a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+			<a class="nav-item nav-link" href="#">Notifications</a>
+			<a class="nav-item nav-link" href="#">Messages</a>
+		</div>
+	</div>
+	
+	<div class="collapse navbar-collapse">
+	<form class="form-inline">
+		<div class="input-group">
+			<span class="input-group-addon" id="basic-addon1">@</span>
+			<input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+		</div>
+	</form>
+	
+	<ul class="navbar-nav ml-auto nav-flex icons">
+		<li class="nav-item avatar dropdown">
+			<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<c:choose>
+					<c:when test="${currentUser.imgUrl.equals('')}">
+						<img id="profPic" src="/images/cat_profile-512.png">
+					</c:when>
+					<c:otherwise>
+						<img id="profPic" src="${currentUser.imgUrl}" style="border-radius:50%">
+					</c:otherwise>
+				</c:choose>
+			</a>
+			<div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+				<a class="dropdown-item waves-effect waves-light" href="/user/${currentUser.id}">My Profile</a>
+				<c:if test="${currentUser.level == 'admin'}">
+					<a class="dropdown-item waves-effect waves-light" href="/admin">Admin Dashboard</a>
+				</c:if>
+				<a class="dropdown-item waves-effect waves-light" id="logoutLink" href="#">Logout</a>
+			</div>
+		</li>
+	</ul>
+</div>
+</nav>
+
 	<!-- MAP -->
 	<div id="map"></div>
 	<input id="pac-input"></input>
@@ -95,7 +147,7 @@
 	<!-- LOGOUT -->
 	<form id="logoutForm" method="POST" action="/logout">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		<input id="logoutButton" type="submit" value="Logout" />
+		<input type="submit" value="" />
 	</form>
 	
 	<!-- MODAL BUTTON -->

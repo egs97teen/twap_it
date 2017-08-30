@@ -1,6 +1,7 @@
  body, html {
     height: 100%;
-    background-color: #efe7e1;
+    width: 100%;
+    background-color: #333232;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -8,4 +9,9 @@
  
  html {
  	font-size: 14px;
+ }
+ 
+ #profPic {
+ 	height: 5vh;
+ 	width: 3vw;
  }
