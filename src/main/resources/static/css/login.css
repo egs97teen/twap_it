@@ -1,10 +1,10 @@
- 
- body, html {
+body, html {
     height: 100%;
-    background-color: #efe7e1;
+    background-color: #333232;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    font-family: Varela Round;
 }
  
  html {
@@ -13,41 +13,36 @@
  
  #loginForm {
  	min-width: 300px;
- 	width: 20vw;
  	position: fixed;
  	top: 18vh;
 	left: 38vw;
 	background: white;
-	padding:3vh 3vw;
 	border-radius: 8px;
 	border: 1px solid #CCCCCC;
 	opacity: .9;
+	padding: 10px;
  }
 
 #button {
-	background-color: #a77c5c;
-	color: #FFFFFF;
+	background-color: #CBB8A9;
+	color: #F1F5F4;
 	border-radius: 5px;
 	border: none;
 	padding: 7px 12px 7px 12px;
 }
 
-#messageContainer {
-	margin: 3vh 1vw;
+#button:hover {
+	background-color: #88958D;
 }
 
-input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([readonly]) + label {
-            color: #a77c5c; 
-        }
-
-        
-input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]) {
-            border-bottom: 1px solid #a77c5c;
-            box-shadow: 0 1px 0 0 #a77c5c; 
-        }
-
 a {
-	color: #5c87a7;
+	color: #88958D;
+	transition: all ease-in-out 200ms;
+}
+
+a:hover {
+	color: #CBB8A9;
+	text-decoration: none;
 }
 
 p {
@@ -66,12 +61,11 @@ p {
 	transition: 0.5s;
 }
 
-
 .rectangle-speech-border {
   position:relative;
   padding:25px 15px;
   margin:1em 0 3em;
-  border:5px solid #A6A6A6;
+  border:5px solid #88958D;
   text-align:center;
   color:#333;
   background:#fff;
@@ -92,7 +86,7 @@ p {
   height:25px;
   border-style:solid;
   border-width:0 5px 5px 0;
-  border-color:#A6A6A6;
+  border-color:#88958D;
   background:#FFFFFF;
   /* css3 */
   -webkit-border-bottom-right-radius:80px 50px;
@@ -113,8 +107,8 @@ p {
   height:25px;
   border-style:solid;
   border-width:0 5px 5px 0;
-  border-color:#A6A6A6;
-  background:#efe7e1;
+  border-color:#88958D;
+  background:#333232;
   /* css3 */
   -webkit-border-bottom-right-radius:40px 50px;
   -moz-border-radius-bottomright:40px 50px;
@@ -131,14 +125,14 @@ p {
   left:49px;
   width:5px;
   height:5px;
-  background:#A6A6A6;
+  background:#88958D;
   /* css3 */
   -webkit-border-radius:10px;
   -moz-border-radius:10px;
   border-radius:10px;
 }
 
-/* creates a white rectangle to cover part of the oval border*/
+/* creates a white rectangle to cover part of the oval border */
 .rectangle-speech-border > :first-child:after {
   content:"";
   position:absolute;
@@ -196,7 +190,7 @@ span {
   position:relative;
   padding:25px 15px;
   margin:1em 0 3em;
-  border:5px solid #A6A6A6;
+  border:5px solid #88958D;
   text-align:center;
   color:#333;
   background:#fff;
@@ -217,7 +211,7 @@ span {
   height:25px;
   border-style:solid;
   border-width:0px 0px 5px 5px;
-  border-color:#A6A6A6;
+  border-color:#88958D;
   background:#FFFFFF;
   /* css3 */
   -webkit-border-bottom-left-radius:80px 50px;
@@ -238,8 +232,8 @@ span {
   height:25px;
   border-style:solid;
   border-width:0px 0px 5px 5px;
-  border-color:#A6A6A6;
-  background:#efe7e1;
+  border-color:#88958D;
+  background:#333232;
   /* css3 */
   -webkit-border-bottom-left-radius:40px 50px;
   -moz-border-radius-bottomleft:40px 50px;
@@ -256,14 +250,14 @@ span {
   right:49px;
   width:5px;
   height:5px;
-  background:#A6A6A6;
+  background:#88958D;
   /* css3 */
   -webkit-border-radius:10px;
   -moz-border-radius:10px;
   border-radius:10px;
 }
 
-/* creates a white rectangle to cover part of the oval border*/
+/* creates a white rectangle to cover part of the oval border */
 .rectangle-speech-border2 > :first-child:after {
   content:"";
   position:absolute;
