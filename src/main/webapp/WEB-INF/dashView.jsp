@@ -15,12 +15,24 @@
 	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 </head>
 <style>
-	 #map {
+	 #map-container {
 	   width: 90vw;
 	   height: 70vh;
 	   background-color: grey;
 	   margin: auto;
-	   background: transparent url(img/loading.gif) no-repeat center center;
+	   
+	 }
+	 
+	 #loading {
+		width: 90vw;
+		height: 70vh;
+	 	background: transparent url(img/loading.gif) no-repeat center center;
+	 	background-size: cover;
+	 }
+	 
+	 #map {
+	 	width: 100%;
+	 	height: 100%;
 	 }
 	 
 	 #infowindow-content .title {
@@ -143,7 +155,11 @@
 </nav>
 
 	<!-- MAP -->
-	<div id="map"></div>
+	<div id="map-container">
+		<div id="loading"></div>
+		<div id="map"></div>
+		
+	</div>
 	<input id="pac-input"></input>
 	
 	<!-- LOGOUT -->
@@ -370,7 +386,8 @@
 	  map.setMapTypeId('styled_map');
       infoWindow = new google.maps.InfoWindow;
       geocoder = new google.maps.Geocoder;
-
+	
+      $('#map').css('opacity','0');
       // Try HTML5 geolocation.
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -390,6 +407,8 @@
           infoWindow.setContent('You are here.');
           infoWindow.open(map);
           map.setCenter(pos);
+          $('#loading').hide();
+          $('#map').css('opacity', '1');
         }, function() {
           	handleLocationError(true, infoWindow, map.getCenter());
         });
