@@ -82,14 +82,6 @@ public class UserController {
 		return "dashView";
 	}
 
-	@PostMapping("/dashboard")
-	public String addContent(Principal principal, @ModelAttribute("twap") Twap twap) {
-		User currentUser = userService.findByEmail(principal.getName());
-		twap.setUser(currentUser);
-		twapService.saveTwap(twap);
-		return "redirect:/dashboard";
-	}
-
 	@RequestMapping("/user/{user_id}")
 	public String userPage(Principal principal, Model model) {
 		User currentUser = userService.findByEmail(principal.getName());
@@ -97,4 +89,5 @@ public class UserController {
 		
 		return "userView";
 	}
+
 }

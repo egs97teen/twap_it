@@ -29,7 +29,7 @@
 	
 	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 		<div class="navbar-nav">
-			<a class="nav-item nav-link" href="#">Home</a>
+			<a class="nav-item nav-link" href="/dashboard">Home</a>
 			<a class="nav-item nav-link" href="#">Notifications <span class="badge badge-secondary">#</span></a>
 			<a class="nav-item nav-link" href="#">Messages <span class="badge badge-secondary">#</span></a>
 		</div>
@@ -69,33 +69,29 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-2">
+		<div class="col-md-1">
 		</div>
-		<div class="col-md-8">
-			<div class="row">
-				<!-- USER INFO -->
-<%-- 				<img id="pic" src="${currentUser.imgUrl}" alt="">
-				<div id="info">
-					<h2>${currentUser.name}</h2>
+		<div class="col-md-10">
+			<!-- USER INFO -->
+			<div class="card hovercard">
+				<div class="cardheader">
+				</div>
+				<div class="avatar">
+					<img alt="" src="${currentUser.imgUrl}">
+				</div>
+				<div class="info">
+					<div class="title">${currentUser.name}</div>
 					<p>${currentUser.email}</p>
-					<p><small class="text-muted">${currentUser.updatedAt}</small></p>
-				</div> --%>
-				<div class="card hovercard">
-					<div class="cardheader">
-					</div>
-					<div class="avatar">
-						<img alt="" src="${currentUser.imgUrl}">
-					</div>
-					<div class="info">
-						<div class="title">${currentUser.name}</div>
-						<p>${currentUser.email}</p>
-					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="userFeed">
+				<h2>Twaps</h2>
+			</div>
+			<div id="friends">
+				<h2>Friends</h2>
 			</div>
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-1">
 		</div>
 	</div>
 </div>
