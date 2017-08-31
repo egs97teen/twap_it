@@ -105,6 +105,10 @@
 	#target {
         width: 345px;
 	}
+	
+	#logoutForm {
+		display: none;
+	}
 </style>
 <body>
 
@@ -128,14 +132,18 @@
 	</div>
 	
 	<div class="collapse navbar-collapse">
+	
+	<ul class="navbar-nav ml-auto nav-flex icons">
+	
+	<!-- SEARCH USERS -->
 	<form class="form-inline">
 		<div class="input-group">
-			<span class="input-group-addon" id="basic-addon1">#</span>
-			<input type="text" class="form-control" placeholder="Search tags..." aria-label="tag" aria-describedby="basic-addon1">
+			<span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
+			<input type="text" class="form-control" placeholder="Search users" aria-label="tag" aria-describedby="basic-addon1">
 		</div>
 	</form>
 	
-	<ul class="navbar-nav ml-auto nav-flex icons">
+	<!-- PROFILE PIC DROPDOWN -->
 		<li class="nav-item avatar dropdown">
 			<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<c:choose>
@@ -178,9 +186,17 @@
 			<input id="pac-input" placeholder="Search location..."></input>
 		</div>
 		<div class="col-md-3">
+			<!-- SEARCH TWAPS/TAGS -->
+
 			<!-- TWAP FEED -->
 			<div id="twapFeed">
-			
+				<c:forEach var="twap" items="${twaps}">
+					<img class="twapPic" src="${twap.user.imgUrl}">
+					<p>${twap.user.name}</p>
+					<p>${twap.content}</p>
+
+					<hr>
+				</c:forEach>
 			</div>
 		</div>
 		<div class="col-md-1">
@@ -261,7 +277,7 @@ $('#logoutLink').on('click', function(e) {
 	$('#logoutForm').submit();
 })
 </script>
-	
+
 	<!-- MAP -->
 	<script>
 	// Note: This example requires that you consent to location sharing when
