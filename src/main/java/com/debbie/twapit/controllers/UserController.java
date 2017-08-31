@@ -81,5 +81,13 @@ public class UserController {
 		model.addAttribute("twaps", twaps);
 		return "dashView";
 	}
-	
+
+	@RequestMapping("/user/{user_id}")
+	public String userPage(Principal principal, Model model) {
+		User currentUser = userService.findByEmail(principal.getName());
+		model.addAttribute("currentUser", currentUser);
+		
+		return "userView";
+	}
+
 }

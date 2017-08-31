@@ -1,0 +1,99 @@
+ body, html {
+    height: 100%;
+    width: 100%;
+    background-color: #333232;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: Varela Round;
+}
+
+html {
+	font-size: 13px;
+}
+
+#profPic {
+	height: 5vh;
+	width: 3vw;
+}
+
+.card {
+    margin: 30px 0 20px 0;
+    border-radius: 3px;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+.card.hovercard {
+	display: inline-block;
+    width: 20vw;
+    position: relative;
+    padding-top: 0;
+    overflow: hidden;
+    text-align: center;
+    background-color: #F1F5F4;
+    border: 1px solid #E3E4DB;
+}
+
+.card.hovercard .cardheader {
+    background-color: #88958D;
+    background-size: cover;
+    height: 70px;
+}
+
+.card.hovercard .avatar {
+    position: relative;
+    top: -50px;
+    margin-bottom: -50px;
+    left: -55px;
+}
+
+.card.hovercard .avatar img {
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.5);
+}
+
+.card.hovercard .info {
+    padding: 4px 8px 10px;
+}
+
+.card.hovercard .info .title {
+    margin-bottom: 4px;
+    font-size: 24px;
+    line-height: 1;
+    color: #E3E4DB;
+    vertical-align: middle;
+}
+
+.userFeed {
+	display: inline-block;
+	vertical-align: top;
+	width: 35vw;
+	height: 80vh;
+	border: 1px solid #E3E4DB;
+	border-radius: 3px;
+	margin: 15px;
+	margin-top: 30px;
+	background-color: #F1F5F4;
+	color: #A6A6A6;
+	padding: 5px;
+}
+
+#friends {
+	display: inline-block;
+	vertical-align: top;
+	width: 22vw;
+	height: 80vh;
+	border: 1px solid #E3E4DB;
+	border-radius: 3px;
+    margin: 30px 0 20px 0;
+    background-color: #F1F5F4;
+    color: #A6A6A6;
+    padding: 5px;
+}
