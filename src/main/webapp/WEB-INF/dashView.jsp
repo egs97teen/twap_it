@@ -16,9 +16,11 @@
 </head>
 <style>
 	 #map {
-	   width: 800px;
-	   height: 500px;
+	   width: 90vw;
+	   height: 70vh;
 	   background-color: grey;
+	   margin: auto;
+	   background: transparent url(img/loading.gif) no-repeat center center;
 	 }
 	 
 	 #infowindow-content .title {
