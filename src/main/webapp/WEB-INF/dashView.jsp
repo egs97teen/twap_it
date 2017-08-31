@@ -180,8 +180,9 @@
 			</div>
 			
 			<!-- MAP -->
-			<div id="map"></div>
-			<input id="pac-input" placeholder="Search location..."></input>
+				<div id="map">
+				</div>
+				<input id="pac-input" placeholder="Search location..."></input>
 		</div>
 		<div class="col-md-3">
 			<!-- TWAP FEED -->
