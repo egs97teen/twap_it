@@ -16,9 +16,11 @@
 </head>
 <style>
 	 #map {
-	   width: 800px;
-	   height: 500px;
+	   width: 90vw;
+	   height: 70vh;
 	   background-color: grey;
+	   margin: auto;
+	   background: transparent url(img/loading.gif) no-repeat center center;
 	 }
 	 
 	 #infowindow-content .title {
@@ -529,12 +531,9 @@
 	}
 	 
 	 function submitRadio() {
-		 console.log($('#option1'))
 		if (!$('#option1')[0].checked) {
 			document.getElementById("lat").value = marker.getPosition().lat();
-			console.log(document.getElementById("lat").value)
 			document.getElementById("lon").value = marker.getPosition().lng();
-			console.log(document.getElementById("lon").value)
 		}
 		$('#modalForm').submit();
 	 }
