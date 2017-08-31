@@ -15,25 +15,25 @@
 	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 </head>
 <style>
+
 	 #map-container {
-	   width: 90vw;
-	   height: 70vh;
+	   width: 55vw;
+	   height: 75vh;
+	  }
+
+	 #map {
+	   width: 55vw;
+	   height: 75vh;
 	   background-color: grey;
-	   margin: auto;
-	   
 	 }
 	 
 	 #loading {
-		width: 90vw;
-		height: 70vh;
+		width: 55vw;
+		height: 75vh;
 	 	background: transparent url(img/loading.gif) no-repeat center center;
 	 	background-size: cover;
 	 }
 	 
-	 #map {
-	 	width: 100%;
-	 	height: 100%;
-	 }
 	 
 	 #infowindow-content .title {
 	   font-weight: bold;
@@ -56,6 +56,10 @@
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         background-color: #fff;
         font-family: Roboto;
+	}
+	
+	input {
+		display: none;
 	}
 
 	#pac-container {
@@ -80,6 +84,7 @@
         font-size: 15px;
         font-weight: 300;
         margin-left: 12px;
+        margin-top: 10px;
         padding: 0 11px 0 13px;
         text-overflow: ellipsis;
         width: 400px;
@@ -153,23 +158,42 @@
 	</ul>
 </div>
 </nav>
-
-	<!-- MAP -->
-	<div id="map-container">
-		<div id="loading"></div>
-		<div id="map"></div>
-		
-	</div>
-	<input id="pac-input"></input>
 	
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-7">
+			<div id="twapIt">
+				<span>What's goin on?</span>
+				<!-- MODAL BUTTON --> <button id="twapButton" data-toggle="modal" data-target="#formModal">TWAP IT!</button>
+				<p>Note: You can also choose another location to Twap!</p>
+			</div>
+			
+			<!-- MAP -->
+			<div id="map-container">
+				<div id="loading"></div>
+				<div id="map"></div>
+			</div>	
+			<input id="pac-input" placeholder="Search location..."></input>
+		</div>
+		<div class="col-md-3">
+			<!-- TWAP FEED -->
+			<div id="twapFeed">
+			
+			</div>
+		</div>
+		<div class="col-md-1">
+		</div>
+	</div>
+</div>
+
 	<!-- LOGOUT -->
 	<form id="logoutForm" method="POST" action="/logout">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<input type="submit" value="" />
 	</form>
-	
-	<!-- MODAL BUTTON -->
-	<button id="reportButton" class="btn btn-outline-danger" data-toggle="modal" data-target="#formModal">New Report</button>
+
 	
 	<!-- ---------- MODAL 1 ---------- -->
 	<div class="modal fade" id="formModal" tabindex="s-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
@@ -234,7 +258,6 @@
 	
 	<!-- MODAL STUFF -->
 	<script>
-		
 		/* function submitForm() {
 			
 			$('#modalForm').submit();
@@ -392,6 +415,7 @@
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
         	// stop the gif here and load the page normally
+        	$('input').show();
           var pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
