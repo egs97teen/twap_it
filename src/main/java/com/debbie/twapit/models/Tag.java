@@ -37,7 +37,7 @@ public class Tag {
 	)
 	private List<Twap> twaps;
 	
-	private Tag() {
+	public Tag() {
 	}
 	
 	@PrePersist

@@ -1,6 +1,7 @@
 package com.debbie.twapit.controllers;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -75,16 +76,10 @@ public class UserController {
 	public String dashboard(Principal principal, Model model, @ModelAttribute("twap") Twap twap) {
 		User currentUser = userService.findByEmail(principal.getName());
 		model.addAttribute("currentUser", currentUser);
+		
+		List<Twap> twaps = twapService.getTwaps();
+		model.addAttribute("twaps", twaps);
 		return "dashView";
 	}
-	
-	@PostMapping("/dashboard")
-	public String addContent(Principal principal, @ModelAttribute("twap") Twap twap) {
-		User currentUser = userService.findByEmail(principal.getName());
-		twap.setUser(currentUser);
-		twapService.saveTwap(twap);
-		return "redirect:/dashboard";
-	}
-	
 	
 }
