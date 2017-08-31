@@ -305,6 +305,8 @@
 
 	  map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 10,
+			draggableCursor:'crosshair',
+			draggingCursor:'move',
 			mapTypeControlOptions: {
 				mapTypeIds: ['satellite','styled_map']
 			}
@@ -411,7 +413,33 @@
         });
         map.fitBounds(bounds);
       }); 
-    }
+      
+      // Create an array of alphabetical characters used to label the markers.
+      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      
+      var locations = [];
+  	
+  	  <c:forEach items="${ twaps }" var="location">
+  		var latLng = new google.maps.LatLng(${ location.lat }, ${ location.lon });
+  		locations.push(latLng);
+  	  </c:forEach>
+   	  
+   	  // Add some twap markers to the map.
+      // Note: The code uses the JavaScript Array.prototype.map() method to
+      // create an array of twap markers based on a given "locations" array.
+      // The map() method here has nothing to do with the Google Maps API.
+      var twaps = locations.map(function(location, i) {
+        return new google.maps.Marker({
+          position: location,
+          label: labels[i % labels.length]
+        });
+      });
+      
+      // Add a twap marker clusterer to manage the markers.
+      var markerCluster = new MarkerClusterer(map, twaps,
+          {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+    		}
+    
 	
 	// Function to notify geolocation failure
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -481,6 +509,8 @@
 		  });
 		}
 	</script>
+	<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+    </script>
 	<script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApmlEwj8rfIV3G51dsV5VTeO9tOOkBoX4&libraries=places&callback=initMap">
     </script>
