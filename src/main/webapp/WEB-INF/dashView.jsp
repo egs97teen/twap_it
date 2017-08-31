@@ -15,9 +15,14 @@
 	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 </head>
 <style>
+
 	 #map-container {
 	   width: 90vw;
 	   height: 70vh;
+
+	 #map {
+	   width: 55vw;
+	   height: 75vh;
 	   background-color: grey;
 	   margin: auto;
 	   
@@ -80,6 +85,7 @@
         font-size: 15px;
         font-weight: 300;
         margin-left: 12px;
+        margin-top: 10px;
         padding: 0 11px 0 13px;
         text-overflow: ellipsis;
         width: 400px;
@@ -162,14 +168,39 @@
 	</div>
 	<input id="pac-input"></input>
 	
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-7">
+			<div id="twapIt">
+				<span>What's goin on?</span>
+				<!-- MODAL BUTTON --> <button id="twapButton" data-toggle="modal" data-target="#formModal">TWAP IT!</button>
+				<p>Note: You can also choose another location to Twap!</p>
+			</div>
+			
+			<!-- MAP -->
+			<div id="map"></div>
+			<input id="pac-input" placeholder="Search location..."></input>
+		</div>
+		<div class="col-md-3">
+			<!-- TWAP FEED -->
+			<div id="twapFeed">
+			
+			</div>
+		</div>
+		<div class="col-md-1">
+		</div>
+	</div>
+</div>
+
+>>>>>>> added some styling to dash
 	<!-- LOGOUT -->
 	<form id="logoutForm" method="POST" action="/logout">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<input type="submit" value="" />
 	</form>
-	
-	<!-- MODAL BUTTON -->
-	<button id="reportButton" class="btn btn-outline-danger" data-toggle="modal" data-target="#formModal">New Report</button>
+
 	
 	<!-- ---------- MODAL 1 ---------- -->
 	<div class="modal fade" id="formModal" tabindex="s-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
