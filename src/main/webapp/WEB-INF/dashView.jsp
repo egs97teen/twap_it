@@ -529,12 +529,9 @@
 	}
 	 
 	 function submitRadio() {
-		 console.log($('#option1'))
 		if (!$('#option1')[0].checked) {
 			document.getElementById("lat").value = marker.getPosition().lat();
-			console.log(document.getElementById("lat").value)
 			document.getElementById("lon").value = marker.getPosition().lng();
-			console.log(document.getElementById("lon").value)
 		}
 		$('#modalForm').submit();
 	 }
