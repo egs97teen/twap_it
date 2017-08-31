@@ -152,13 +152,13 @@
 				<c:if test="${currentUser.level == 'admin'}">
 					<a class="dropdown-item waves-effect waves-light" href="/admin">Admin Dashboard</a>
 				</c:if>
-				<a class="dropdown-item waves-effect waves-light" id="logoutLink" href="#">Logout</a>
+				<a class="dropdown-item waves-effect waves-light" id="logoutLink">Logout</a>
 			</div>
 		</li>
 	</ul>
 </div>
 </nav>
-	
+
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-1">
@@ -174,7 +174,7 @@
 			<div id="map-container">
 				<div id="loading"></div>
 				<div id="map"></div>
-			</div>	
+			</div>
 			<input id="pac-input" placeholder="Search location..."></input>
 		</div>
 		<div class="col-md-3">
@@ -254,17 +254,13 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
 <!-- 	<script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script> -->
-	<script src="/js/login.js"></script>
-	
-	<!-- MODAL STUFF -->
-	<script>
-		/* function submitForm() {
-			
-			$('#modalForm').submit();
-			// TODO: modal disappear
-		} */
-		
-	</script>
+	<script src="/js/dash.js"></script>
+<script>
+$('#logoutLink').on('click', function(e) {
+	e.preventDefault();
+	$('#logoutForm').submit();
+})
+</script>
 	
 	<!-- MAP -->
 	<script>
