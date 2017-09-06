@@ -60,7 +60,7 @@
 				<c:if test="${currentUser.level == 'admin'}">
 					<a class="dropdown-item waves-effect waves-light" href="/admin">Admin Dashboard</a>
 				</c:if>
-				<a class="dropdown-item waves-effect waves-light" id="logoutLink" href="#">Logout</a>
+				<a class="dropdown-item waves-effect waves-light" id="logoutLink">Logout</a>
 			</div>
 		</li>
 	</ul>
