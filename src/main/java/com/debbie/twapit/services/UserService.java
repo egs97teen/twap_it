@@ -49,4 +49,8 @@ public class UserService {
 		return userRepo.findOne(id);
 	}
 	
+	public List<Object[]> findUsers(String searchQuery, Long id) {
+		return userRepo.findUsers(searchQuery, id);
+	}
+	
 }

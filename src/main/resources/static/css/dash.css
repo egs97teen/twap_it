@@ -14,8 +14,8 @@ html {
 }
 
 #profPic {
-	height: 5vh;
-	width: 3vw;
+	height: 40px;
+	width: 40px;
 }
 
 #map {
@@ -23,29 +23,22 @@ html {
 	border-radius: 3px;
 }
 
-#twapFeed {
-	border: 1px solid #CCCCCC;
-	border-radius: 3px;
-	height: 80vh;
-	width: 23vw;
-	margin-top: 4vh;
-	background-color: #F1F5F4;
-}
-
 #twapIt {
-	text-align: right;
-	padding-right: 2vw;
+	text-align: center;
+	padding-right: 1vw;
 }
 
 span {
 	color: #F1F5F4;
 	font-weight: bolder;
+	font-size: 17px;
 }
 
 #twapButton {
 	margin-top: 3px;
 	border: none;
 	color: #CBB8A9;
+	font-size: 16px;
 	background-color: transparent;
 }
 
@@ -56,5 +49,41 @@ span {
 p {
 	color: #CCCCCC;
 	font-style: italic;
-	margin-bottom: 3px;
+	margin-bottom: 4px;
+}
+
+#twapFeed {
+	border: 1px solid #CCCCCC;
+	border-radius: 3px;
+	height: 80vh;
+	width: 23vw;
+	margin-top: 4vh;
+	background-color: #F1F5F4;
+	overflow: scroll;
+}
+
+.twapPic {
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+}
+
+.user_pic {
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+}
+
+#results {
+	z-index: 2;
+	right: 38px;
+	position: absolute;
+	background-color: #fff;
+	width: 170px;
+	top: 25px;
+}
+
+.user_info {
+	display: inline-block;
+	vertical-align: middle;
 }

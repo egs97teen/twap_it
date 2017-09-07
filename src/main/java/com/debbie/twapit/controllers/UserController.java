@@ -79,6 +79,7 @@ public class UserController {
 		
 		List<Twap> twaps = twapService.getTwaps();
 		model.addAttribute("twaps", twaps);
+		
 		return "dashView";
 	}
 
@@ -89,5 +90,7 @@ public class UserController {
 		
 		return "userView";
 	}
+	
+	
 
 }

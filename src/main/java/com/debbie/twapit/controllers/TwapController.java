@@ -29,4 +29,5 @@ public class TwapController {
 		twapService.saveTwap(twap);
 		return "redirect:/dashboard";
 	}
+	
 }

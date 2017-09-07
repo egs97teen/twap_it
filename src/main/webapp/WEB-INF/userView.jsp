@@ -48,7 +48,7 @@
 			<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<c:choose>
 					<c:when test="${currentUser.imgUrl.equals('')}">
-						<img id="profPic" src="/images/cat_profile-512.png">
+						<img id="profPic" src="/img/cat_profile-512.png">
 					</c:when>
 					<c:otherwise>
 						<img id="profPic" src="${currentUser.imgUrl}" style="border-radius:50%">
@@ -60,7 +60,7 @@
 				<c:if test="${currentUser.level == 'admin'}">
 					<a class="dropdown-item waves-effect waves-light" href="/admin">Admin Dashboard</a>
 				</c:if>
-				<a class="dropdown-item waves-effect waves-light" id="logoutLink" href="#">Logout</a>
+				<a class="dropdown-item waves-effect waves-light" id="logoutLink">Logout</a>
 			</div>
 		</li>
 	</ul>
@@ -108,5 +108,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
 <script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
 <script src="/js/user.js"></script>
+<script>
+$('#logoutLink').on('click', function(e) {
+	e.preventDefault();
+	$('#logoutForm').submit();
+})
+</script>
 </body>
 </html>
