@@ -48,7 +48,7 @@
 			<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<c:choose>
 					<c:when test="${currentUser.imgUrl.equals('')}">
-						<img id="profPic" src="/images/cat_profile-512.png">
+						<img id="profPic" src="/img/cat_profile-512.png">
 					</c:when>
 					<c:otherwise>
 						<img id="profPic" src="${currentUser.imgUrl}" style="border-radius:50%">

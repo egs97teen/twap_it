@@ -14,8 +14,8 @@ html {
 }
 
 #profPic {
-	height: 5vh;
-	width: 3vw;
+	height: 40px;
+	width: 40px;
 }
 
 #map {
@@ -63,7 +63,27 @@ p {
 }
 
 .twapPic {
-	height: 5vh;
-	width: 3vw;
+	height: 40px;
+	width: 40px;
 	border-radius: 50%;
+}
+
+.user_pic {
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+}
+
+#results {
+	z-index: 2;
+	right: 38px;
+	position: absolute;
+	background-color: #fff;
+	width: 170px;
+	top: 25px;
+}
+
+.user_info {
+	display: inline-block;
+	vertical-align: middle;
 }

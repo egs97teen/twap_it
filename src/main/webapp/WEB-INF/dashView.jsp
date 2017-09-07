@@ -30,7 +30,7 @@
 	 #loading {
 		width: 55vw;
 		height: 75vh;
-	 	background: transparent url(img/loading.gif) no-repeat center center;
+	 	background: transparent url(img/loadguy.gif) no-repeat center center;
 	 	background-size: cover;
 	 }
 	 
@@ -139,7 +139,7 @@
 	<form class="form-inline">
 		<div class="input-group">
 			<span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
-			<input type="text" class="form-control" placeholder="Search users" aria-label="tag" aria-describedby="basic-addon1">
+			<input type="text" id="searchUsers" class="form-control" placeholder="Search users" aria-label="tag" aria-describedby="basic-addon1">
 		</div>
 	</form>
 	
@@ -148,7 +148,7 @@
 			<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<c:choose>
 					<c:when test="${currentUser.imgUrl.equals('')}">
-						<img id="profPic" src="/images/cat_profile-512.png">
+						<img id="profPic" src="/img/cat_profile-512.png">
 					</c:when>
 					<c:otherwise>
 						<img id="profPic" src="${currentUser.imgUrl}" style="border-radius:50%">
@@ -166,6 +166,8 @@
 	</ul>
 </div>
 </nav>
+<!-- SEARCH RESULTS DIV -->
+<div id="results"></div>
 
 <div class="container-fluid">
 	<div class="row">
@@ -186,7 +188,6 @@
 			<input id="pac-input" placeholder="Search location..."></input>
 		</div>
 		<div class="col-md-3">
-			<!-- SEARCH TWAPS/TAGS -->
 
 			<!-- TWAP FEED -->
 			<div id="twapFeed">
@@ -272,10 +273,46 @@
 <!-- 	<script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script> -->
 	<script src="/js/dash.js"></script>
 <script>
+<!-- LOGOUT FUNCTIONALITY -->
 $('#logoutLink').on('click', function(e) {
 	e.preventDefault();
 	$('#logoutForm').submit();
 })
+
+<!-- SEARCH USERS FUNCTIONALITY -->
+$('#searchUsers').on('input', function() {
+	var searchQuery = $(this).val();
+	$.get('/search', {query: searchQuery}, function(response) {
+		var results = "";
+		if(searchQuery == "") {
+			results = "";
+		} else if(response.length > 8) {
+			for(var i = 0; i < 8; i++) {
+				results += "<a href='/user/"+response[i][0]+"'><div class='search_result'><img class='user_pic' src='"+response[i][1]+"'><div class='user_info'><p class='user_name'>"+response[i][2]+"</p><p class='user_email'>"+response[i][3]+"</p></div></div></a>";
+			}
+		} else {
+			for(var i = 0; i < response.length; i++) {
+				results += "<a href='/user/"+response[i][0]+"'><div class='search_result'><img class='user_pic' src='"+response[i][1]+"'><div class='user_info'><p class='user_name'>"+response[i][2]+"</p><p class='user_email'>"+response[i][3]+"</p></div></div></a>";
+			}
+		}
+		if(response) {
+			$('#results').show().html('<div id="results">'+results+'</div>')
+			$(document).click(function(e) {
+				if($(e.target).hasClass('form-control')) {
+					$('#results').show();
+				} else {
+					$('#results').hide();
+				}
+			})
+/* 			$('#searchUsers').click(function() {
+				console.log(results);
+				$('#results').show();
+			}) */
+		}
+	}, 'json')
+})
+
+
 </script>
 
 	<!-- MAP -->
@@ -618,7 +655,7 @@ $('#logoutLink').on('click', function(e) {
 	<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
 	<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApmlEwj8rfIV3G51dsV5VTeO9tOOkBoX4&libraries=places&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFthhs_n2Gt51e-a1WWNZfspjTiSQY-aI&libraries=places&callback=initMap">
     </script>
 </body>
 </html>
