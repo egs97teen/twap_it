@@ -345,6 +345,7 @@ $('#searchUsers').on('input', function() {
     // failed.", it means you probably did not give permission for the browser to
     // locate you.
     var map, infoWindow, geocoder;
+	var lastOpenedWindow;
 	
 	// Initiates the map
 	function initMap() {
@@ -493,9 +494,6 @@ $('#searchUsers').on('input', function() {
             lng: position.coords.longitude
           };
           
-          console.log("LAT=" + pos.lat);
-          console.log("LON=" + pos.lng);
-          
           document.getElementById("lat").value = pos.lat;
           document.getElementById("lon").value = pos.lng;
 
@@ -515,13 +513,16 @@ $('#searchUsers').on('input', function() {
       
       // Creates a listener for any clicks on the map
       map.addListener('click', function(event) {
+    	  console.log(map);
     	  	//Runs function to add a marker to the map
     	    placeMarkerAndPanTo(event.latLng, map);
        	var latLng = event.latLng.lat() + "," + event.latLng.lng();
     	    geocodeLatLng(latLng, map, infoWindow);
     	  	var lat = event.latLng.lat();
     	  	var lng = event.latLng.lng();
-    	  	console.log("LAT=" + lat + " LONG=" + lng);
+    	  	if (lastOpenedWindow) {
+    	  		lastOpenedWindow.close();
+    	  	}
     	  });
       
    // Create the search box and link it to the UI element.
@@ -570,7 +571,8 @@ $('#searchUsers').on('input', function() {
             map: map,
             icon: icon,
             title: place.name,
-            position: place.geometry.location
+            position: place.geometry.location,
+            clickable: true
           }));
 
           if (place.geometry.viewport) {
@@ -598,17 +600,51 @@ $('#searchUsers').on('input', function() {
       // create an array of twap markers based on a given "locations" array.
       // The map() method here has nothing to do with the Google Maps API.
       var twaps = locations.map(function(location, i) {
-        return new google.maps.Marker({
+    	  	var newMarker = new google.maps.Marker({
           position: location,
-          label: labels[i % labels.length]
+          label: labels[i % labels.length],
+          clickable: true,
+          animation: google.maps.Animation.DROP
         });
+
+    	  	newMarker.addListener('click', function(location) {
+    	  		var markerLat = location.latLng.lat();
+    	  		var markerLng = location.latLng.lng();
+    	  		$.get("/searchMarker", {lat: markerLat, lng: markerLng}, function(response) {
+    	  			var geocoder = new google.maps.Geocoder();
+    	  			var latlng = {lat: markerLat, lng: markerLng};
+    	  		  	
+    	  		  	geocoder.geocode({'location': latlng}, function(results, status) {
+    	  		    		if (status === 'OK') {
+    	  		      		if (results[0]) {
+    	  		  				address = results[0].formatted_address;
+    	  		  				
+    	  		  				var infoContent = '<img src="'+response[0][4]+'"><div id="twaptwap"><a href="/user/' + response[0][1] + '">' + response[0][2] + '</a><br>' + response[0][3] + '<br>'+ response[0][0]+'<br>' + address + '</div>';
+    	  		  				
+    	  		  				var newWindow = new google.maps.InfoWindow({
+    	    	  						content: infoContent
+    	    	  					});
+    	    	  			
+		    	    	  			if (lastOpenedWindow) {
+		    	    	  				lastOpenedWindow.close();
+		    	    	  			}
+    	    	  			
+    	    	  					newWindow.open(map, newMarker);
+    	    	  					lastOpenedWindow = newWindow;
+    	  		      		}
+    	  		    		}
+    	  		  	});
+    	  		  	
+    	  		}, "json")
+    	  	})
+    	  	return newMarker;
       });
+
       
       // Add a twap marker clusterer to manage the markers.
       var markerCluster = new MarkerClusterer(map, twaps,
           {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
     		}
-    
 	
 	// Function to notify geolocation failure
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -644,7 +680,7 @@ $('#searchUsers').on('input', function() {
 			$('#modalForm').submit();
 		}
 	}
-	 
+
 	 function submitRadio() {
 		if (!$('#option1')[0].checked) {
 			document.getElementById("lat").value = marker.getPosition().lat();
@@ -663,7 +699,6 @@ $('#searchUsers').on('input', function() {
 		      if (results[0]) {
 		        map.setZoom(map.zoom);
 		        marker.setPosition(latlng);
-		        console.log(results[0].formatted_address);
 		        infowindow.setContent(results[0].formatted_address);
 		        infowindow.open(map, marker);
 		      } else {

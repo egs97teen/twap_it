@@ -54,4 +54,8 @@ public class TwapService {
 	public List<Twap> getTwaps() {
 		return twapRepo.getRecentTwaps();
 	}
+	
+	public List<Object[]> findMarkerInfo(double lat, double lng) {
+		return (List<Object[]>) twapRepo.findMarkerInfo(lat, lng);
+	}
 }
