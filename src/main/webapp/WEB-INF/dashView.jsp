@@ -322,6 +322,7 @@ $('#searchUsers').on('input', function() {
     // failed.", it means you probably did not give permission for the browser to
     // locate you.
     var map, infoWindow, geocoder;
+	var lastOpenedWindow;
 	
 	// Initiates the map
 	function initMap() {
@@ -496,7 +497,9 @@ $('#searchUsers').on('input', function() {
     	    geocodeLatLng(latLng, map, infoWindow);
     	  	var lat = event.latLng.lat();
     	  	var lng = event.latLng.lng();
-    	  	console.log("LAT=" + lat + " LONG=" + lng);
+    	  	if (lastOpenedWindow) {
+    	  		lastOpenedWindow.close();
+    	  	}
     	  });
       
    // Create the search box and link it to the UI element.
@@ -577,15 +580,40 @@ $('#searchUsers').on('input', function() {
     	  	var newMarker = new google.maps.Marker({
           position: location,
           label: labels[i % labels.length],
-          clickable: true
+          clickable: true,
+          animation: google.maps.Animation.DROP
         });
 
     	  	newMarker.addListener('click', function(location) {
     	  		var markerLat = location.latLng.lat();
     	  		var markerLng = location.latLng.lng();
-    	  		$.get("/searchMarker", {lat: markerLat, lng: markerLng}, function(response)
+    	  		$.get("/searchMarker", {lat: markerLat, lng: markerLng}, function(response) {
+    	  			var geocoder = new google.maps.Geocoder();
+    	  			var latlng = {lat: markerLat, lng: markerLng};
+    	  		  	
+    	  		  	geocoder.geocode({'location': latlng}, function(results, status) {
+    	  		    		if (status === 'OK') {
+    	  		      		if (results[0]) {
+    	  		  				address = results[0].formatted_address;
+    	  		  				
+    	  		  				var infoContent = '<img src="'+response[0][4]+'"><div id="twaptwap"><a href="/user/' + response[0][1] + '">' + response[0][2] + '</a><br>' + response[0][3] + '<br>'+ response[0][0]+'<br>' + address + '</div>';
+    	  		  				
+    	  		  				var newWindow = new google.maps.InfoWindow({
+    	    	  						content: infoContent
+    	    	  					});
+    	    	  			
+		    	    	  			if (lastOpenedWindow) {
+		    	    	  				lastOpenedWindow.close();
+		    	    	  			}
+    	    	  			
+    	    	  					newWindow.open(map, newMarker);
+    	    	  					lastOpenedWindow = newWindow;
+    	  		      		}
+    	  		    		}
+    	  		  	});
+    	  		  	
+    	  		}, "json")
     	  	})
-    	  	
     	  	return newMarker;
       });
 
