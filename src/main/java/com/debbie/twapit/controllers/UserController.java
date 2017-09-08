@@ -152,6 +152,22 @@ public class UserController {
 		friendService.rejectFriend(friend, currentUser);
 		return "redirect:/user/" + currentUser.getId();
 	}
+
+	@RequestMapping("/admin")
+	public String adminDashboard(Principal principal, Model model) {
+		User currentUser = userService.findByEmail(principal.getName());
+		List<Twap> twaps = twapService.getTwaps();
+		List<User> allUsers = userService.findAllUsers();
+		model.addAttribute("twaps", twaps);
+		model.addAttribute("allUsers", allUsers);
+		if(currentUser.getLevel().equals("admin")) {
+			model.addAttribute("currentUser", currentUser);
+			return "adminDashboard";
+		}else {
+			return "redirect:/dashboard";
+		}
+	}
+
 	
 
 }
