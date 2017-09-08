@@ -82,16 +82,20 @@
 <!--  IF SELF, SHOW INVITATIONS UNDER NOTIFICATIONS BAR -->
 <div id="invites">
 	<c:forEach var="invite" items="${invitations}">
-		<p><strong>Invitation from</strong> ${invite.name} • <a class="g" href="/accept/${invite.id}">Accept</a> • <a class="r" href="/reject/${invite.id}">Reject</a></p>
+		<div class="inv">
+			<img class="user_pic" src="${invite.imgUrl}">
+			<div class="text">
+				<p class="user_name">${invite.name}</p>
+				<a class="g" href="/accept/${invite.id}">Accept</a> • <a class="r" href="/reject/${invite.id}">Reject</a>
+			</div>
+		</div>
 	</c:forEach>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid container">
 	<div class="row">
-		<div class="col-md-1">
-		</div>
-		<div class="col-md-10">
-			<!-- USER INFO -->
+		<div class="col-md-3">
+		<!-- USER INFO -->
 			<div class="card hovercard">
 				<div class="cardheader">
 				</div>
@@ -116,19 +120,31 @@
 					</c:choose>
 				</div>
 			</c:if>
-			
+		</div>
+		
+		<div class="col-md-6">
 			<!-- TWAP FEED -->
-			<div class="userFeed">
+			<div id="twapFeed">
+			<div id="userFeed">
 				<h2>Twaps</h2>
 				<c:forEach var="twap" items="${user.twaps}">
-					<p id="time"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${twap.createdAt}" /></p>
-					<p>${twap.content}</p>
-					<c:if test="${self}">
-						<a href="/delete/${twap.id}">delete</a>
-					</c:if>
+					<div class="twap">
+						<img class="user_pic" src="${user.imgUrl}">
+						<div class="twapStuff">
+							<span class="user_name">${user.name}</span> <p class="time"><fmt:formatDate type="date" dateStyle="short" value="${twap.createdAt}"/></p>
+							<p class="twapText">${twap.content}</p>
+							<c:if test="${self}">
+								<a class="twapDel" href="/delete/${twap.id}">delete</a>
+							</c:if>
+						</div>
+					</div>
 				</c:forEach>
 			</div>
-			<!-- FRIENDS LIST -->
+			</div>
+		</div>
+		
+		<div class="col-md-3">
+		<!-- FRIENDS LIST -->
 			<div id="friends">
 				<h2>Friends</h2>
 				<c:if test="${!self}">
@@ -139,13 +155,19 @@
 				<c:if test="${!friends_list.equals(null)}">
 					<ul>
 						<c:forEach var="friend" items="${friends_list}">
-							<li><a href="/user/${friend.id}">${friend.name}</a></li>
+							<li>
+								<div class="friend">
+ 									<a href="/user/${friend.id}"><img class="user_pic" src="${friend.imgUrl}"></a>
+									<div class="friendInfo">
+										<a class="user_name" href="/user/${friend.id}">${friend.name}</a>
+										<p class="user_email">${friend.email}</p>
+									</div>
+								</div>
+							</li>
 						</c:forEach>
 					</ul>
 				</c:if>
 			</div>
-		</div>
-		<div class="col-md-1">
 		</div>
 	</div>
 </div>
