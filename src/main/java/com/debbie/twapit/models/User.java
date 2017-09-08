@@ -77,11 +77,11 @@ public class User {
 	public User() {
 	}
 	
-	public List<Twap> getReports() {
+	public List<Twap> getTwaps() {
 		return twaps;
 	}
 
-	public void setReports(List<Twap> twaps) {
+	public void setTwaps(List<Twap> twaps) {
 		this.twaps = twaps;
 	}
 

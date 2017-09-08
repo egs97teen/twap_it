@@ -52,6 +52,6 @@ public class TwapService {
 	}
 
 	public List<Twap> getTwaps() {
-		return (List<Twap>) twapRepo.findAll();
+		return twapRepo.getRecentTwaps();
 	}
 }

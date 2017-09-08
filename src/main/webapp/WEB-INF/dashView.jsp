@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -126,7 +127,11 @@
 	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 		<div class="navbar-nav">
 			<a class="nav-item nav-link active" href="/dashboard">Home <span class="sr-only">(current)</span></a>
-			<a class="nav-item nav-link" href="#">Notifications</a>
+			<a id="notifications" class="nav-item nav-link notif" href="#">Notifications 
+					<c:if test="${invitations != null}">
+					<span class="badge badge-secondary">${invitations.size()}</span>
+					</c:if>
+			</a>
 			<a class="nav-item nav-link" href="#">Messages</a>
 		</div>
 	</div>
@@ -168,6 +173,13 @@
 </nav>
 <!-- SEARCH RESULTS DIV -->
 <div id="results"></div>
+
+<!--  IF SELF, SHOW INVITATIONS UNDER NOTIFICATIONS BAR -->
+<div id="invites">
+	<c:forEach var="invite" items="${invitations}">
+		<p><strong>Invitation from</strong> ${invite.name} • <a class="g" href="/accept/${invite.id}">Accept</a> • <a class="r" href="/reject/${invite.id}">Reject</a></p>
+	</c:forEach>
+</div>
 
 <div class="container-fluid">
 	<div class="row">
@@ -273,6 +285,18 @@
 <!-- 	<script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script> -->
 	<script src="/js/dash.js"></script>
 <script>
+<!-- WHEN CLICKING ON NOTIFICATIONS -->
+$(document).ready(function() {
+	$('#invites').hide();
+	$(this).click(function(e) {
+		if($(e.target).hasClass('notif')) {
+			$('#invites').show();
+		} else {
+			$('#invites').hide();	
+		}
+	})
+})
+
 <!-- LOGOUT FUNCTIONALITY -->
 $('#logoutLink').on('click', function(e) {
 	e.preventDefault();
@@ -311,7 +335,6 @@ $('#searchUsers').on('input', function() {
 		}
 	}, 'json')
 })
-
 
 </script>
 
