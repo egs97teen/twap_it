@@ -171,6 +171,7 @@
 	</ul>
 </div>
 </nav>
+
 <!-- SEARCH RESULTS DIV -->
 <div id="results"></div>
 
@@ -207,25 +208,12 @@
 
 			<!-- TWAP FEED -->
 			<div id="twapFeed">
-				<c:forEach var="twap" items="${twaps}">
-					<div class="twap">
-						<img class="user_pic" src="${twap.user.imgUrl}">
-						<div class="twapStuff">
-							<span class="user_name">${twap.user.name}</span> <p class="time"><fmt:formatDate type="date" dateStyle="short" value="${twap.createdAt}"/></p>
-							<p class="twapText">${twap.content}</p>
-							<c:if test="${self}">
-								<a class="twapDel" href="/delete/${twap.id}">delete</a>
-							</c:if>
-						</div>
-					</div>
-					<hr>
-				</c:forEach>
 			</div>
 		</div>
 	</div>
 </div>
 
-	<!-- LOGOUT -->
+<!-- LOGOUT -->
 	<form id="logoutForm" method="POST" action="/logout">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<input type="submit" value="" />
@@ -291,8 +279,59 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
 <!-- 	<script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script> -->
-	<script src="/js/dash.js"></script>
+	
 <script>
+
+<!-- PARSE TWAP CONTENT FOR HASHTAGS AND CREATE LINKS -->
+var content = "";
+
+<c:forEach var="twap" items="${twaps}">
+	var twapContent = "${twap.content}";
+	twapContent = twapContent.replace(/(^|\s)(#[a-z\d-]+)/ig, "$1<a href='' class='hash_tag'>$2</a>");
+	
+	<c:choose>
+	<c:when test="${twap.user.id == currentUser.id}">
+		content += "<div class='twap'> <img class='user_pic' src='${twap.user.imgUrl}'> <div class='twapStuff'> <span class='user_name'>${twap.user.name}</span> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> <a class='twapDel' href='/delete/${twap.id}'>delete</a> </div></div><br>"
+	</c:when>
+	<c:otherwise>
+		content += "<div class='twap'> <img class='user_pic' src='${twap.user.imgUrl}'> <div class='twapStuff'> <span class='user_name'>${twap.user.name}</span> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> </div></div><br>"
+	</c:otherwise>
+	</c:choose>
+	
+/* <div class="twap">
+	<img class="user_pic" src="${twap.user.imgUrl}">
+	<div class="twapStuff">
+		<span class="user_name">${twap.user.name}</span> <p class="time"><fmt:formatDate type="date" dateStyle="short" value="${twap.createdAt}"/></p>
+		<p class="twapText">${twap.content}</p>
+		<c:if test="${self}">
+			<a class="twapDel" href="/delete/${twap.id}">delete</a>
+		</c:if>
+	</div>
+</div>
+<hr> */
+</c:forEach>
+
+$('#twapFeed').html(content);
+
+<!-- WHEN CLICKING ON HASHTAGS -->
+$('.hash_tag').click(function(event) {
+	event.preventDefault();
+
+	var feed, twaps, twapText;
+	feed = document.getElementById("twapFeed");
+	twaps = feed.getElementsByClassName("twap");
+
+		for(var i = 0; i < twaps.length; i++){
+			twapText = twaps[i].getElementsByClassName("twapText")[0].innerText.replace(/[^\w#]/g, " ").toUpperCase().split(" ");
+			
+ 			if (twapText.includes($(this)[0].innerText.toUpperCase())) {
+				twaps[i].style.display="";
+			} else {
+				twaps[i].style.display="none";
+			} 
+		}
+})
+
 <!-- WHEN CLICKING ON NOTIFICATIONS -->
 $('#invites').hide();
 $(document).ready(function() {
@@ -603,6 +642,7 @@ $('#searchUsers').on('input', function() {
       // Note: The code uses the JavaScript Array.prototype.map() method to
       // create an array of twap markers based on a given "locations" array.
       // The map() method here has nothing to do with the Google Maps API.
+
       var twaps = locations.map(function(location, i) {
     	  	var newMarker = new google.maps.Marker({
           position: location,
@@ -623,7 +663,11 @@ $('#searchUsers').on('input', function() {
     	  		      		if (results[0]) {
     	  		  				address = results[0].formatted_address;
     	  		  				
-    	  		  				var infoContent = '<img class="user_pic" src="'+response[0][4]+'"><div id="twaptwap"><a href="/user/' + response[0][1] + '">' + response[0][2] + '</a><br>' + response[0][3] + '<br>' + address + '</div>';
+    	  		  				var twapContent = response[0][3];
+    	  		  				console.log(twapContent);
+    	  		  				twapContent = twapContent.replace(/(^|\s)(#[a-z\d-]+)/ig, "$1<a href='' class='hash_tag'>$2</a>");
+    	  		  				
+    	  		  				var infoContent = '<img class="user_pic" src="'+response[0][4]+'"><div id="twapInfo"><a href="/user/' + response[0][1] + '">' + response[0][2] + '</a><br>' + twapContent + '<br>' + address + '</div>';
     	  		  				
     	  		  				var newWindow = new google.maps.InfoWindow({
     	    	  						content: infoContent
@@ -644,11 +688,78 @@ $('#searchUsers').on('input', function() {
     	  	return newMarker;
       });
 
-      
       // Add a twap marker clusterer to manage the markers.
       var markerCluster = new MarkerClusterer(map, twaps,
           {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-    		}
+
+      $('.hash_tag').click(function(event) {
+	  	  	event.preventDefault();
+	  	  	twaps.forEach(function(marker) {
+	  	  		marker.setMap(null);
+	  	  	})
+	  	  	
+	  	  	markerCluster.clearMarkers();
+	  	  	newLocations = [];
+	  	  	
+	  	  	<c:forEach items="${ twaps }" var="twap">
+	  	  		var twapContent = "${twap.content}";
+	  	  		twapContent = twapContent.toUpperCase();
+	  	  		
+	  	  		if (twapContent.includes($(this)[0].innerText.toUpperCase())) {
+  					var latLng = new google.maps.LatLng("${ twap.lat }", "${ twap.lon }");
+  					newLocations.push(latLng);
+  	  			}
+	  	  	</c:forEach>
+	  	  	
+	  	  twaps = newLocations.map(function(location, i) {
+	    	  	var newMarker = new google.maps.Marker({
+	          position: location,
+	          label: labels[i % labels.length],
+	          clickable: true,
+	          animation: google.maps.Animation.DROP,
+	          map: map
+	        });
+
+	    	  	newMarker.addListener('click', function(location) {
+	    	  		var markerLat = location.latLng.lat();
+	    	  		var markerLng = location.latLng.lng();
+	    	  		$.get("/searchMarker", {lat: markerLat, lng: markerLng}, function(response) {
+	    	  			var geocoder = new google.maps.Geocoder();
+	    	  			var latlng = {lat: markerLat, lng: markerLng};
+	    	  		  	
+	    	  		  	geocoder.geocode({'location': latlng}, function(results, status) {
+	    	  		    		if (status === 'OK') {
+	    	  		      		if (results[0]) {
+	    	  		  				address = results[0].formatted_address;
+	    	  		  				
+		    	  		  			var twapContent = response[0][3];
+	    	  		  				console.log(twapContent);
+	    	  		  				twapContent = twapContent.replace(/(^|\s)(#[a-z\d-]+)/ig, "$1<a href='' class='hash_tag'>$2</a>");
+	    	  		  				
+	    	  		  				var infoContent = '<img class="user_pic" src="'+response[0][4]+'"><div id="twapInfo"><a href="/user/' + response[0][1] + '">' + response[0][2] + '</a><br>' + twapContent + '<br>' + address + '</div>';
+	    	  		  				
+	    	  		  				var newWindow = new google.maps.InfoWindow({
+	    	    	  						content: infoContent
+	    	    	  					});
+	    	    	  			
+			    	    	  			if (lastOpenedWindow) {
+			    	    	  				lastOpenedWindow.close();
+			    	    	  			}
+	    	    	  			
+	    	    	  					newWindow.open(map, newMarker);
+	    	    	  					lastOpenedWindow = newWindow;
+	    	  		      		}
+	    	  		    		}
+	    	  		  	});
+	    	  		  	
+	    	  		}, "json")
+	    	  	})
+	    	  	return newMarker;
+	      });
+	  		markerCluster = new MarkerClusterer(map, twaps,
+	            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+  		})
+	}
 	
 	// Function to notify geolocation failure
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
