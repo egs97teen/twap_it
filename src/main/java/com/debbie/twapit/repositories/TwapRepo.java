@@ -11,7 +11,11 @@ import com.debbie.twapit.models.Twap;
 
 @Repository
 public interface TwapRepo extends CrudRepository<Twap, Long> {
+	
+	@Query("SELECT t FROM Twap t ORDER BY t.createdAt DESC")
+	List<Twap> getRecentTwaps();
 
 	@Query("SELECT t.createdAt, t.user.id, t.user.name, t.content, t.user.imgUrl FROM Twap t WHERE t.lon = :lng AND t.lat = :lat")
 	List<Object[]> findMarkerInfo(@Param("lat") double lat, @Param("lng") double lng);
+	
 }

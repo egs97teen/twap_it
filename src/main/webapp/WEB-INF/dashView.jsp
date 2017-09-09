@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,18 +18,18 @@
 <style>
 
 	 #map-container {
-	   width: 55vw;
+	   width: 100%;
 	   height: 75vh;
 	  }
 
 	 #map {
-	   width: 55vw;
+	   width: 100%;
 	   height: 75vh;
 	   background-color: grey;
 	 }
 	 
 	 #loading {
-		width: 55vw;
+		width: 100%;
 		height: 75vh;
 	 	background: transparent url(img/loadguy.gif) no-repeat center center;
 	 	background-size: cover;
@@ -126,7 +127,11 @@
 	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 		<div class="navbar-nav">
 			<a class="nav-item nav-link active" href="/dashboard">Home <span class="sr-only">(current)</span></a>
-			<a class="nav-item nav-link" href="#">Notifications</a>
+			<a id="notifications" class="nav-item nav-link notif" href="#">Notifications 
+					<c:if test="${invitations != null}">
+					<span class="badge badge-secondary">${invitations.size()}</span>
+					</c:if>
+			</a>
 			<a class="nav-item nav-link" href="#">Messages</a>
 		</div>
 	</div>
@@ -148,10 +153,10 @@
 			<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<c:choose>
 					<c:when test="${currentUser.imgUrl.equals('')}">
-						<img id="profPic" src="/img/cat_profile-512.png">
+						<img class="profPic" src="/img/cat_profile-512.png">
 					</c:when>
 					<c:otherwise>
-						<img id="profPic" src="${currentUser.imgUrl}" style="border-radius:50%">
+						<img class="profPic" src="${currentUser.imgUrl}" style="border-radius:50%">
 					</c:otherwise>
 				</c:choose>
 			</a>
@@ -169,15 +174,26 @@
 <!-- SEARCH RESULTS DIV -->
 <div id="results"></div>
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-1">
+<!--  IF SELF, SHOW INVITATIONS UNDER NOTIFICATIONS BAR -->
+<div id="invites">
+	<c:forEach var="invite" items="${invitations}">
+		<div class="inv">
+			<img class="user_pic" src="${invite.imgUrl}">
+			<div class="text">
+				<p class="user_name">${invite.name}</p>
+				<a class="g" href="/accept/${invite.id}">Accept</a> • <a class="r" href="/reject/${invite.id}">Reject</a>
+			</div>
 		</div>
-		<div class="col-md-7">
+	</c:forEach>
+</div>
+
+<div class="container-fluid container">
+	<div class="row">
+		<div class="col-md-8">
 			<div id="twapIt">
 				<span>What's goin on?</span>
 				<!-- MODAL BUTTON --> <button id="twapButton" data-toggle="modal" data-target="#formModal">TWAP IT!</button>
-				<p>Note: You can also choose another location to Twap!</p>
+				<p id="note">Note: You can also choose another location to Twap!</p>
 			</div>
 			
 			<!-- MAP -->
@@ -187,20 +203,24 @@
 			</div>
 			<input id="pac-input" placeholder="Search location..."></input>
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-4">
 
 			<!-- TWAP FEED -->
 			<div id="twapFeed">
 				<c:forEach var="twap" items="${twaps}">
-					<img class="twapPic" src="${twap.user.imgUrl}">
-					<p>${twap.user.name}</p>
-					<p>${twap.content}</p>
-
+					<div class="twap">
+						<img class="user_pic" src="${twap.user.imgUrl}">
+						<div class="twapStuff">
+							<span class="user_name">${twap.user.name}</span> <p class="time"><fmt:formatDate type="date" dateStyle="short" value="${twap.createdAt}"/></p>
+							<p class="twapText">${twap.content}</p>
+							<c:if test="${self}">
+								<a class="twapDel" href="/delete/${twap.id}">delete</a>
+							</c:if>
+						</div>
+					</div>
 					<hr>
 				</c:forEach>
 			</div>
-		</div>
-		<div class="col-md-1">
 		</div>
 	</div>
 </div>
@@ -273,6 +293,18 @@
 <!-- 	<script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script> -->
 	<script src="/js/dash.js"></script>
 <script>
+<!-- WHEN CLICKING ON NOTIFICATIONS -->
+$('#invites').hide();
+$(document).ready(function() {
+	$(this).click(function(e) {
+		if($(e.target).hasClass('notif')) {
+			$('#invites').show();
+		} else {
+			$('#invites').hide();	
+		}
+	})
+})
+
 <!-- LOGOUT FUNCTIONALITY -->
 $('#logoutLink').on('click', function(e) {
 	e.preventDefault();
@@ -304,14 +336,9 @@ $('#searchUsers').on('input', function() {
 					$('#results').hide();
 				}
 			})
-/* 			$('#searchUsers').click(function() {
-				console.log(results);
-				$('#results').show();
-			}) */
 		}
 	}, 'json')
 })
-
 
 </script>
 
@@ -596,7 +623,7 @@ $('#searchUsers').on('input', function() {
     	  		      		if (results[0]) {
     	  		  				address = results[0].formatted_address;
     	  		  				
-    	  		  				var infoContent = '<img src="'+response[0][4]+'"><div id="twaptwap"><a href="/user/' + response[0][1] + '">' + response[0][2] + '</a><br>' + response[0][3] + '<br>'+ response[0][0]+'<br>' + address + '</div>';
+    	  		  				var infoContent = '<img class="user_pic" src="'+response[0][4]+'"><div id="twaptwap"><a href="/user/' + response[0][1] + '">' + response[0][2] + '</a><br>' + response[0][3] + '<br>'+ response[0][0] +'<br>' + address + '</div>';
     	  		  				
     	  		  				var newWindow = new google.maps.InfoWindow({
     	    	  						content: infoContent

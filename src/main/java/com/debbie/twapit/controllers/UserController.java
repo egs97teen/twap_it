@@ -9,14 +9,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.debbie.twapit.models.Friend;
 import com.debbie.twapit.models.Twap;
 import com.debbie.twapit.models.User;
 import com.debbie.twapit.services.TwapService;
 import com.debbie.twapit.services.UserService;
+import com.debbie.twapit.services.FriendService;
 import com.debbie.twapit.validators.UserValidator;
 
 @Controller
@@ -25,11 +28,13 @@ public class UserController {
 	private UserService userService;
 	private UserValidator userValidator;
 	private TwapService twapService;
+	private FriendService friendService;
 	
-	public UserController(UserService userService, UserValidator userValidator, TwapService twapService) {
+	public UserController(UserService userService, UserValidator userValidator, TwapService twapService, FriendService friendService) {
 		this.userService = userService;
 		this.userValidator = userValidator;
 		this.twapService = twapService;
+		this.friendService = friendService;
 	}
 	
 	@RequestMapping("/login")
@@ -77,6 +82,9 @@ public class UserController {
 		User currentUser = userService.findByEmail(principal.getName());
 		model.addAttribute("currentUser", currentUser);
 		
+		List<User> invitations = friendService.findInvitations(currentUser.getId());
+		model.addAttribute("invitations", invitations);
+		
 		List<Twap> twaps = twapService.getTwaps();
 		model.addAttribute("twaps", twaps);
 		
@@ -84,13 +92,67 @@ public class UserController {
 	}
 
 	@RequestMapping("/user/{user_id}")
-	public String userPage(Principal principal, Model model) {
+	public String userPage(Principal principal, Model model, @PathVariable("user_id") Long user_id) {
 		User currentUser = userService.findByEmail(principal.getName());
 		model.addAttribute("currentUser", currentUser);
+		
+		List<User> invitations = friendService.findInvitations(currentUser.getId());
+		model.addAttribute("invitations", invitations);
+		
+		User user = userService.findUserById(user_id);
+		model.addAttribute("user", user);
+		
+		if(user == currentUser) {
+			model.addAttribute("self", true);
+			
+			List<User> friends_list = friendService.findFriends(currentUser.getId());
+			model.addAttribute("friends_list", friends_list);
+			model.addAttribute("userObject", currentUser);
+		} else {
+			model.addAttribute("self", false);
+			Friend friendship = friendService.findFriendship(user.getId(), currentUser.getId());
+			if (friendship == null) {
+				model.addAttribute("friendship", "none");
+			} else if (friendship.isAccept() == false) {
+				model.addAttribute("friendship", "invited");
+			} else if (friendship.isAccept() == true) {
+				model.addAttribute("friendship", "friends");
+			}
+			List<User> friends_list = friendService.findFriends(user.getId());
+			model.addAttribute("friends_list", friends_list);
+		}
 		
 		return "userView";
 	}
 	
+	@RequestMapping("/invite/{friend_id}")
+	public String addFriend(Principal principal, @PathVariable("friend_id") Long friend_id) {
+		User friend = userService.findUserById(friend_id);
+		User currentUser = userService.findByEmail(principal.getName());
+		
+		friendService.inviteFriend(friend, currentUser);
+		
+		return "redirect:/user/" + friend_id;
+	}
+	
+	@RequestMapping("/accept/{friend_id}")
+	public String acceptFriend(Principal principal, @PathVariable("friend_id") Long friend_id) {
+		User currentUser = userService.findByEmail(principal.getName());
+		User friend = userService.findUserById(friend_id);
+		
+		friendService.acceptFriend(friend, currentUser);
+		return "redirect:/user/" + currentUser.getId();
+	}
+	
+	@RequestMapping("/reject/{friend_id}")
+	public String rejectFriend(Principal principal, @PathVariable("friend_id") Long friend_id) {
+		User currentUser = userService.findByEmail(principal.getName());
+		User friend = userService.findUserById(friend_id);
+		
+		friendService.rejectFriend(friend, currentUser);
+		return "redirect:/user/" + currentUser.getId();
+	}
+
 	@RequestMapping("/admin")
 	public String adminDashboard(Principal principal, Model model) {
 		User currentUser = userService.findByEmail(principal.getName());
@@ -105,7 +167,7 @@ public class UserController {
 			return "redirect:/dashboard";
 		}
 	}
-	
+
 	
 
 }
