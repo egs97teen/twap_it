@@ -58,10 +58,10 @@
 			<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<c:choose>
 					<c:when test="${currentUser.imgUrl.equals('')}">
-						<img id="profPic" src="/img/cat_profile-512.png">
+						<img class="profPic" src="/img/cat_profile-512.png">
 					</c:when>
 					<c:otherwise>
-						<img id="profPic" src="${currentUser.imgUrl}" style="border-radius:50%">
+						<img class="profPic" src="${currentUser.imgUrl}" style="border-radius:50%">
 					</c:otherwise>
 				</c:choose>
 			</a>
@@ -94,7 +94,7 @@
 
 <div class="container-fluid container">
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-md-3 col-sm-4">
 		<!-- USER INFO -->
 			<div class="card hovercard">
 				<div class="cardheader">
@@ -122,9 +122,9 @@
 			</c:if>
 		</div>
 		
-		<div class="col-md-6">
+		<div class="col-md-6 col-sm-8">
 			<!-- TWAP FEED -->
-			<div id="twapFeed">
+
 			<div id="userFeed">
 				<h2>Twaps</h2>
 				<c:forEach var="twap" items="${user.twaps}">
@@ -140,7 +140,7 @@
 					</div>
 				</c:forEach>
 			</div>
-			</div>
+
 		</div>
 		
 		<div class="col-md-3">
