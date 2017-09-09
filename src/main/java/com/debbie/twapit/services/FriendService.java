@@ -16,6 +16,10 @@ public class FriendService {
 		this.friendRepo = friendRepo;
 	}
 	
+	public Friend findInvite(Long friend_id, Long currentUser_id) {
+		return friendRepo.findInvite(friend_id, currentUser_id);
+	}
+	
 	public Friend findFriendship(Long friend_id, Long currentUser_id) {
 		return friendRepo.findFriendship(friend_id, currentUser_id);
 	}
@@ -25,13 +29,8 @@ public class FriendService {
 		newFriendship.setAccept(false);
 		newFriendship.setFriend(friend);
 		newFriendship.setUser(currentUser);
-		Friend newFriendship2 = new Friend();
-		newFriendship2.setAccept(false);
-		newFriendship2.setFriend(currentUser);
-		newFriendship2.setUser(friend);
 		
 		friendRepo.save(newFriendship);
-		friendRepo.save(newFriendship2);
 	}
 	
 	public List<User> findInvitations(Long user_id) {
