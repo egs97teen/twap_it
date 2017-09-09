@@ -623,7 +623,7 @@ $('#searchUsers').on('input', function() {
     	  		      		if (results[0]) {
     	  		  				address = results[0].formatted_address;
     	  		  				
-    	  		  				var infoContent = '<img class="user_pic" src="'+response[0][4]+'"><div id="twaptwap"><a href="/user/' + response[0][1] + '">' + response[0][2] + '</a><br>' + response[0][3] + '<br>'+ response[0][0] +'<br>' + address + '</div>';
+    	  		  				var infoContent = '<img class="user_pic" src="'+response[0][4]+'"><div id="twaptwap"><a href="/user/' + response[0][1] + '">' + response[0][2] + '</a><br>' + response[0][3] + '<br>' + address + '</div>';
     	  		  				
     	  		  				var newWindow = new google.maps.InfoWindow({
     	    	  						content: infoContent

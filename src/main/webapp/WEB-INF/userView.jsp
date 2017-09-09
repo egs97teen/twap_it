@@ -112,7 +112,14 @@
 				<div id="friendStatus">
 					<c:choose>
 						<c:when test="${friendship == 'none'}">
-							<a href="/invite/${user.id}">Add Friend</a>
+							<c:choose>
+								<c:when test="${invite == 'pending'}">
+									<span>Confirm Friend Request</span>
+								</c:when>
+								<c:otherwise>
+									<a href="/invite/${user.id}">Add Friend</a>
+								</c:otherwise>
+							</c:choose>
 						</c:when>
 						<c:when test="${friendship == 'invited'}">
 							<span>Pending Invite</span>

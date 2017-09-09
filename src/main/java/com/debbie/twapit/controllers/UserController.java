@@ -110,6 +110,12 @@ public class UserController {
 			model.addAttribute("userObject", currentUser);
 		} else {
 			model.addAttribute("self", false);
+			
+			Friend invite = friendService.findInvite(user.getId(), currentUser.getId());
+			if(invite != null) {
+				model.addAttribute("invite", "pending");
+			}
+			
 			Friend friendship = friendService.findFriendship(user.getId(), currentUser.getId());
 			if (friendship == null) {
 				model.addAttribute("friendship", "none");
@@ -117,7 +123,7 @@ public class UserController {
 				model.addAttribute("friendship", "invited");
 			} else if (friendship.isAccept() == true) {
 				model.addAttribute("friendship", "friends");
-			}
+			} 
 			List<User> friends_list = friendService.findFriends(user.getId());
 			model.addAttribute("friends_list", friends_list);
 		}
