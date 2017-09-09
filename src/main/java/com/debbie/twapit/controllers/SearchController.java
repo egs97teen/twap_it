@@ -1,6 +1,7 @@
 package com.debbie.twapit.controllers;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.debbie.twapit.services.UserService;
 @RestController	
 public class SearchController {
 
+	private static final Date[] Date = null;
 	private UserService userService;
 	private TwapService twapService;
 	
