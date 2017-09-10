@@ -31,7 +31,7 @@ public class Tag {
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(
-		name="twaps_tags",
+		name="twaptags",
 		joinColumns = @JoinColumn(name = "tag_id"),
 		inverseJoinColumns = @JoinColumn(name = "twap_id")
 	)

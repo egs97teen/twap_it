@@ -44,7 +44,7 @@ public class Twap {
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(
-		name="twaps_tags",
+		name="twaptags",
 		joinColumns = @JoinColumn(name = "twap_id"),
 		inverseJoinColumns = @JoinColumn(name = "tag_id")
 	)

@@ -98,7 +98,7 @@
 						<th class="w-5">Actions</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="twaps_table_body">
 					<c:forEach items="${twaps}" var="twap">
 						<tr>
 							<td class="w-45">${twap.content}</td>
@@ -126,7 +126,7 @@
 						<th>Actions</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="users_table_body">
 					<c:forEach items="${allUsers}" var="user" >
 						<c:if test="${user != currentUser}">
 							<c:if test="${user.level == 'admin'}">
@@ -149,8 +149,8 @@
 			</table>
 		</div>
 	</div>
-	</div>
 </div>
+
 
 	<!-- LOGOUT -->
 	<form id="logoutForm" method="POST" action="/logout">
