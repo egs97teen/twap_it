@@ -168,17 +168,17 @@ function twapsSearch(){
 	var input, data, table, rows;
 	input = document.getElementById("twaps_search");
 	data = input.value.toUpperCase().split(" ");
-	table_body = document.getElementById("twaps_table_body");
-	rows = table_body.getElementsByTagName("tr");
+	table_body = document.getElementById("twaps_table_body"); //grabs table to sort through
+	rows = table_body.getElementsByTagName("tr"); //creates array of rows in the above table.
 	
-	if(data == ""){
+	if(data == ""){ 			//if search is empty but function is triggered, keep all rows showing and exit function.
 		$(rows).show();
 		return;
 	}
 	
-	$(rows).hide();
+	$(rows).hide();  //start all rows as hidden
 	
-	$(rows).filter(function(index){
+	$(rows).filter(function(index){  //iterate through rows using .filter - if row contains search item then return true, else return false.
 		for(var d = 0; d < data.length; d++){
 			if(data[d] == ""){
 				continue;
@@ -188,9 +188,10 @@ function twapsSearch(){
 			}
 		}
 		return false;
-	}).show();
+	}).show();  //if returned true, show that row.
 }	
-	
+
+//Filters users table by checking either user's name or email, identical functionality as above function. 
 function usersSearch(){
 	var input, data, table, rows;
 	input = document.getElementById("users_search");
@@ -218,36 +219,3 @@ function usersSearch(){
 	}).show();
 }
 
-//	for(i = 0; i < tr.length; i++){
-//		content = tr[i].getElementsByTagName("td")[0];
-//		user = tr[i].getElementsByTagName("td")[1];
-//		if(content || user){
-//			if(content.innerHTML.toUpperCase().includes(filters[0]) || user.innerHTML.toUpperCase().includes(filters[0]) ){
-//				tr[i].style.display="";
-//			}else{
-//				tr[i].style.display="none";
-//			}
-//		}
-//	}
-//}
-
-//Filters users table by checking user name or user email.
-//function usersSearch(){
-//	var input, filter, table, tr, userName, userEmail, i;
-//	input = document.getElementById("users_search");
-//	filter = input.value.toUpperCase();
-//	table = document.getElementById("users_table");
-//	tr = table.getElementsByTagName("tr");
-//
-//	for(i = 0; i < tr.length; i++){
-//		userName = tr[i].getElementsByTagName("td")[0];
-//		userEmail = tr[i].getElementsByTagName("td")[1];
-//		if(userName || userEmail){
-//			if(userName.innerHTML.toUpperCase().indexOf(filter) > -1 || userEmail.innerHTML.toUpperCase().indexOf(filter) > -1 ){
-//				tr[i].style.display="";
-//			}else{
-//				tr[i].style.display="none";
-//			}
-//		}
-//	}
-//}
