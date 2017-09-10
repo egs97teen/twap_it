@@ -58,4 +58,12 @@ public class TwapService {
 	public List<Object[]> findMarkerInfo(double lat, double lng) {
 		return (List<Object[]>) twapRepo.findMarkerInfo(lat, lng);
 	}
+	
+	public Twap getTwapById(Long id) {
+		return twapRepo.findOne(id);
+	}
+	
+	public void deleteTwap(Twap twap) {
+		twapRepo.delete(twap);
+	}
 }

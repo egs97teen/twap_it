@@ -159,6 +159,20 @@ public class UserController {
 		return "redirect:/user/" + currentUser.getId();
 	}
 
+//	Delete a user, checks to make sure currentUser is administrator, if not, does not delete user and redirects to home-page.
+	@RequestMapping("/admin/delete/{user_id}")
+	public String removeUser(@PathVariable("user_id") Long user_id, Principal principal, Model model) {
+		User currentUser = userService.findByEmail(principal.getName());
+		User targetUser = userService.findUserById(user_id);
+		if(currentUser.getLevel().equals("admin")) {
+			userService.removeUser(targetUser);
+			return "redirect:/admin";
+		}else {
+			return "redirect:/reroute";
+		}
+		
+	}
+	
 	@RequestMapping("/admin")
 	public String adminDashboard(Principal principal, Model model) {
 		User currentUser = userService.findByEmail(principal.getName());
@@ -173,7 +187,17 @@ public class UserController {
 			return "redirect:/dashboard";
 		}
 	}
-
 	
+	@RequestMapping("/admin/promote/{user_id}")
+	public String promoteUser(@PathVariable("user_id") Long user_id, Principal principal) {
+		User currentUser = userService.findByEmail(principal.getName());
+		User targetUser = userService.findUserById(user_id);
+		if(currentUser.getLevel().equals("admin")) {
+			userService.saveUserWithAdminRole(targetUser);
+			return "redirect:/admin";
+		}else {
+			return "redirect:/reroute";
+		}
+	}	
 
 }

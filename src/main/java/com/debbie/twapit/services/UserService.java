@@ -53,4 +53,8 @@ public class UserService {
 		return userRepo.findUsers(searchQuery, id);
 	}
 	
+	public void removeUser(User user) {
+		userRepo.delete(user);
+	}
+	
 }

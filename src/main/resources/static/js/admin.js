@@ -135,68 +135,119 @@ $(document).ready(function(){
 			})
 		})
 	})
-	
+//	Filtering System & Swapping out Twap/User Tables	
 //	Sets up the page with Users table hidden and Twaps button selected
 	$("#users_display").hide();
 	$("#twaps_button").addClass('selected');
 
+//	Changes the view to twaps table
+	$("#twaps_button").click(function(e){
+		e.preventDefault();
+		$("#users_display").fadeOut(function(){
+			$("#twap_list").fadeIn();
+		});
+		$("#twaps_button").addClass("selected");
+		$("#users_button").removeClass("selected");
+	});
+	
+	
 //	Changes the view to users table
 	$("#users_button").click(function(e){
-		e.preventDefault();
-		$("#users_display").fadeIn();
-		$("#twap_list").fadeOut();
+		e.preventDefault(); 
+		$("#twap_list").fadeOut(function(){
+			$("#users_display").fadeIn();
+		});
 		$("#users_button").addClass("selected");
 		$("#twap_list").removeClass("selected");
 	});
 	
-//	Changes the view to twaps table
-	$("#twaps_button").click(function(e){
-		e.preventDefault();
-		$("#twap_list").fadeIn();
-		$("#users_display").fadeOut();
-		$("#twaps_button").addClass("selected");
-		$("#users_button").removeClass("selected");
-	});
-})
+});
 
 //Filters twaps table by checking either twapper name or twap content
 function twapsSearch(){
-	var input, filter, table, tr, content, user, i;
+	var input, data, table, rows;
 	input = document.getElementById("twaps_search");
-	filter = input.value.toUpperCase()
-	table = document.getElementById("twaps_table");
-	tr = table.getElementsByTagName("tr");
-
-	for(i = 0; i < tr.length; i++){
-		content = tr[i].getElementsByTagName("td")[0];
-		user = tr[i].getElementsByTagName("td")[1];
-		if(content || user){
-			if(content.innerHTML.toUpperCase().indexOf(filter) > -1 || user.innerHTML.toUpperCase().indexOf(filter) > -1 ){
-				tr[i].style.display="";
-			}else{
-				tr[i].style.display="none";
+	data = input.value.toUpperCase().split(" ");
+	table_body = document.getElementById("twaps_table_body");
+	rows = table_body.getElementsByTagName("tr");
+	
+	if(data == ""){
+		$(rows).show();
+		return;
+	}
+	
+	$(rows).hide();
+	
+	$(rows).filter(function(index){
+		for(var d = 0; d < data.length; d++){
+			if(data[d] == ""){
+				continue;
+			}
+			else if(rows[index].innerText.toUpperCase().indexOf(data[d]) != -1){
+				return true;
 			}
 		}
+		return false;
+	}).show();
+}	
+	
+function usersSearch(){
+	var input, data, table, rows;
+	input = document.getElementById("users_search");
+	data = input.value.toUpperCase().split(" ");
+	table_body = document.getElementById("users_table_body");
+	rows = table_body.getElementsByTagName("tr");
+
+	if(data == ""){
+		$(rows).show();
+		return;
 	}
+	
+	$(rows).hide();
+	
+	$(rows).filter(function(index){
+		for(var d = 0; d < data.length; d++){
+			if(data[d] == ""){
+				continue;
+			}
+			else if(rows[index].innerText.toUpperCase().indexOf(data[d]) != -1){
+				return true;
+			}
+		}
+		return false;
+	}).show();
 }
+
+//	for(i = 0; i < tr.length; i++){
+//		content = tr[i].getElementsByTagName("td")[0];
+//		user = tr[i].getElementsByTagName("td")[1];
+//		if(content || user){
+//			if(content.innerHTML.toUpperCase().includes(filters[0]) || user.innerHTML.toUpperCase().includes(filters[0]) ){
+//				tr[i].style.display="";
+//			}else{
+//				tr[i].style.display="none";
+//			}
+//		}
+//	}
+//}
 
 //Filters users table by checking user name or user email.
-function usersSearch(){
-	var input, filter, table, tr, userName, userEmail, i;
-	input = document.getElementById("users_search");
-	filter = input.value.toUpperCase();
-	table = document.getElementById("users_table");
-	tr = table.getElementsByTagName("tr");
-
-	for(i = 0; i < tr.length; i++){
-		userName = tr[i].getElementsByTagName("td")[0];
-		userEmail = tr[i].getElementsByTagName("td")[1];
-		if(userName || userEmail){
-			if(userName.innerHTML.toUpperCase().indexOf(filter) > -1 || userEmail.innerHTML.toUpperCase().indexOf(filter) > -1 ){
-				tr[i].style.display="";
-			}else{
-				tr[i].style.display="none";
-			}
-		}
-	}
-}
+//function usersSearch(){
+//	var input, filter, table, tr, userName, userEmail, i;
+//	input = document.getElementById("users_search");
+//	filter = input.value.toUpperCase();
+//	table = document.getElementById("users_table");
+//	tr = table.getElementsByTagName("tr");
+//
+//	for(i = 0; i < tr.length; i++){
+//		userName = tr[i].getElementsByTagName("td")[0];
+//		userEmail = tr[i].getElementsByTagName("td")[1];
+//		if(userName || userEmail){
+//			if(userName.innerHTML.toUpperCase().indexOf(filter) > -1 || userEmail.innerHTML.toUpperCase().indexOf(filter) > -1 ){
+//				tr[i].style.display="";
+//			}else{
+//				tr[i].style.display="none";
+//			}
+//		}
+//	}
+//}
