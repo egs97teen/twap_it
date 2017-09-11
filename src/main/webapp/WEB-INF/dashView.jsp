@@ -643,7 +643,7 @@ $('#searchUsers').on('input', function() {
       // create an array of twap markers based on a given "locations" array.
       // The map() method here has nothing to do with the Google Maps API.
 
-      var twaps = locations.map(function(location, i) {
+      twaps = locations.map(function(location, i) {
     	  	var newMarker = new google.maps.Marker({
           position: location,
           label: labels[i % labels.length],
@@ -671,7 +671,8 @@ $('#searchUsers').on('input', function() {
     	  		  				
     	  		  				var newWindow = new google.maps.InfoWindow({
     	    	  						content: infoContent
-    	    	  					});
+    	    	  					},
+    	    	  					hashfilter());
     	    	  			
 		    	    	  			if (lastOpenedWindow) {
 		    	    	  				lastOpenedWindow.close();
@@ -679,6 +680,11 @@ $('#searchUsers').on('input', function() {
     	    	  			
     	    	  					newWindow.open(map, newMarker);
     	    	  					lastOpenedWindow = newWindow;
+    	    	  					
+    	    	  					$('.hash_tag').on('click', function(e) {
+    	    	  						e.preventDefault();
+    	    	  						hashfilter();
+    	    	  					})
     	  		      		}
     	  		    		}
     	  		  	});
@@ -691,8 +697,21 @@ $('#searchUsers').on('input', function() {
       // Add a twap marker clusterer to manage the markers.
       var markerCluster = new MarkerClusterer(map, twaps,
           {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-
+      
       $('.hash_tag').click(function(event) {
+    	  	event.preventDefault();
+    	  	console.log("SINGLE CLICK?");
+    	  	hashfilter();
+      })
+      
+      $(document).ready(function() {
+    	  console.log("LOADCLICK");
+    	  	hashfilter();
+      })
+      
+      function hashfilter() {
+   		  $('.hash_tag').click(function(event) {
+   			  console.log("CHEY");
 	  	  	event.preventDefault();
 	  	  	twaps.forEach(function(marker) {
 	  	  		marker.setMap(null);
@@ -740,7 +759,8 @@ $('#searchUsers').on('input', function() {
 	    	  		  				
 	    	  		  				var newWindow = new google.maps.InfoWindow({
 	    	    	  						content: infoContent
-	    	    	  					});
+	    	    	  					},
+	    	    	  					hashfilter());
 	    	    	  			
 			    	    	  			if (lastOpenedWindow) {
 			    	    	  				lastOpenedWindow.close();
@@ -748,6 +768,12 @@ $('#searchUsers').on('input', function() {
 	    	    	  			
 	    	    	  					newWindow.open(map, newMarker);
 	    	    	  					lastOpenedWindow = newWindow;
+	    	    	  					
+	    	    	  					$('.hash_tag').click(function(e) {
+	    	    	  						console.log("BLAH");
+	    	    	  						e.preventDefault();
+	    	    	  						hashfilter();
+	    	    	  					})
 	    	  		      		}
 	    	  		    		}
 	    	  		  	});
@@ -759,7 +785,7 @@ $('#searchUsers').on('input', function() {
 	  		markerCluster = new MarkerClusterer(map, twaps,
 	            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
   		})
-	}
+	}}
 	
 	// Function to notify geolocation failure
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
