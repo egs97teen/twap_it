@@ -543,6 +543,7 @@ $('#searchUsers').on('input', function() {
           infoWindow.setPosition(pos);
           infoWindow.setContent('You are here.');
           infoWindow.open(map);
+          lastOpenedWindow = infoWindow;
           map.setCenter(pos);
           $('#loading').hide();
           $('#map').css('opacity', '1');
@@ -664,15 +665,16 @@ $('#searchUsers').on('input', function() {
     	  		  				address = results[0].formatted_address;
     	  		  				
     	  		  				var twapContent = response[0][3];
-    	  		  				console.log(twapContent);
     	  		  				twapContent = twapContent.replace(/(^|\s)(#[a-z\d-]+)/ig, "$1<a href='' class='hash_tag'>$2</a>");
     	  		  				
-    	  		  				var infoContent = '<img class="user_pic" src="'+response[0][4]+'"><div id="twapInfo"><a href="/user/' + response[0][1] + '">' + response[0][2] + '</a><br>' + twapContent + '<br>' + address + '</div>';
+    	  		  				var utcSeconds = response[0][0];
+    	  		  				var date = new Date(utcSeconds);
+    	  		  				
+    	  		  				var infoContent = '<img class="user_pic" src="'+response[0][4]+'"><div id="twapInfo"><a href="/user/' + response[0][1] + '">' + response[0][2] + '</a><br>' + twapContent + '<br>' + date + '<br>'+ address + '</div>';
     	  		  				
     	  		  				var newWindow = new google.maps.InfoWindow({
     	    	  						content: infoContent
-    	    	  					},
-    	    	  					hashfilter());
+    	    	  					});
     	    	  			
 		    	    	  			if (lastOpenedWindow) {
 		    	    	  				lastOpenedWindow.close();
@@ -680,11 +682,6 @@ $('#searchUsers').on('input', function() {
     	    	  			
     	    	  					newWindow.open(map, newMarker);
     	    	  					lastOpenedWindow = newWindow;
-    	    	  					
-    	    	  					$('.hash_tag').on('click', function(e) {
-    	    	  						e.preventDefault();
-    	    	  						hashfilter();
-    	    	  					})
     	  		      		}
     	  		    		}
     	  		  	});
@@ -698,20 +695,7 @@ $('#searchUsers').on('input', function() {
       var markerCluster = new MarkerClusterer(map, twaps,
           {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
       
-      $('.hash_tag').click(function(event) {
-    	  	event.preventDefault();
-    	  	console.log("SINGLE CLICK?");
-    	  	hashfilter();
-      })
-      
-      $(document).ready(function() {
-    	  console.log("LOADCLICK");
-    	  	hashfilter();
-      })
-      
-      function hashfilter() {
-   		  $('.hash_tag').click(function(event) {
-   			  console.log("CHEY");
+   		  $(document).on("click", ".hash_tag", function(event) {
 	  	  	event.preventDefault();
 	  	  	twaps.forEach(function(marker) {
 	  	  		marker.setMap(null);
@@ -759,8 +743,7 @@ $('#searchUsers').on('input', function() {
 	    	  		  				
 	    	  		  				var newWindow = new google.maps.InfoWindow({
 	    	    	  						content: infoContent
-	    	    	  					},
-	    	    	  					hashfilter());
+	    	    	  					});
 	    	    	  			
 			    	    	  			if (lastOpenedWindow) {
 			    	    	  				lastOpenedWindow.close();
@@ -768,12 +751,6 @@ $('#searchUsers').on('input', function() {
 	    	    	  			
 	    	    	  					newWindow.open(map, newMarker);
 	    	    	  					lastOpenedWindow = newWindow;
-	    	    	  					
-	    	    	  					$('.hash_tag').click(function(e) {
-	    	    	  						console.log("BLAH");
-	    	    	  						e.preventDefault();
-	    	    	  						hashfilter();
-	    	    	  					})
 	    	  		      		}
 	    	  		    		}
 	    	  		  	});
@@ -785,7 +762,7 @@ $('#searchUsers').on('input', function() {
 	  		markerCluster = new MarkerClusterer(map, twaps,
 	            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
   		})
-	}}
+	}
 	
 	// Function to notify geolocation failure
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -842,6 +819,7 @@ $('#searchUsers').on('input', function() {
 		        marker.setPosition(latlng);
 		        infowindow.setContent(results[0].formatted_address);
 		        infowindow.open(map, marker);
+		        lastOpenedWindow = infoWindow;
 		      } else {
 		        window.alert('No results found');
 		      }
