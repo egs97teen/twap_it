@@ -288,13 +288,20 @@ var content = "";
 <c:forEach var="twap" items="${twaps}">
 	var twapContent = "${twap.content}";
 	twapContent = twapContent.replace(/(^|\s)(#[a-z\d-]+)/ig, "$1<a href='' class='hash_tag'>$2</a>");
-	
 	<c:choose>
-	<c:when test="${twap.user.id == currentUser.id}">
-		content += "<div class='twap'> <img class='user_pic' src='${twap.user.imgUrl}'> <div class='twapStuff'> <span class='user_name'>${twap.user.name}</span> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> <a class='twapDel' href='/delete/${twap.id}'>delete</a> </div></div><br>"
+	<c:when test="${twap.user.imgUrl.equals('')}">
+		var imgUrl = '/img/cat_profile-512.png'
 	</c:when>
 	<c:otherwise>
-		content += "<div class='twap'> <img class='user_pic' src='${twap.user.imgUrl}'> <div class='twapStuff'> <span class='user_name'>${twap.user.name}</span> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> </div></div><br>"
+		var imgUrl = "${twap.user.imgUrl}"
+	</c:otherwise>
+	</c:choose>
+	<c:choose>
+	<c:when test="${twap.user.id == currentUser.id}">
+		content += "<div class='twap'> <img class='user_pic' src=" + imgUrl + "> <div class='twapStuff'> <span class='user_name'>${twap.user.name}</span> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> <a class='twapDel' href='/delete/${twap.id}'>delete</a> </div></div><br>"
+	</c:when>
+	<c:otherwise>
+		content += "<div class='twap'> <img class='user_pic' src=" + imgUrl + "> <div class='twapStuff'> <span class='user_name'>${twap.user.name}</span> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> </div></div><br>"
 	</c:otherwise>
 	</c:choose>
 	
