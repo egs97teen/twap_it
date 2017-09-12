@@ -135,7 +135,7 @@ span {
 	width: 100%;
 	margin-top: 4vh;
 	background-color: #F1F5F4;
-	overflow: scroll;
+	overflow: auto;
 }
 
 hr {
@@ -146,6 +146,7 @@ hr {
 .twapStuff {
 	display: inline-block;
 	vertical-align: middle;
+	width: 80%;
 }
 
 .time {
@@ -165,4 +166,12 @@ p.twapText {
 
 .twapDel:hover {
 	color: red;
+}
+
+.hash_tag {
+	color: #CBB8A9;
+}
+
+.hash_tag:hover {
+	color: #CCCCCC;
 }

@@ -298,10 +298,10 @@ var content = "";
 	</c:choose>
 	<c:choose>
 	<c:when test="${twap.user.id == currentUser.id}">
-		content += "<div class='twap'> <img class='user_pic' src=" + imgUrl + "> <div class='twapStuff'> <span class='user_name'>${twap.user.name}</span> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> <a class='twapDel' href='/delete/${twap.id}'>delete</a> </div></div><br>"
+		content += "<div class='twap'> <img class='user_pic' src=" + imgUrl + "> <div class='twapStuff'> <span class='user_name'>${twap.user.name}</span> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> <a class='twapDel' href='/delete/${twap.id}'>delete</a> </div></div>"
 	</c:when>
 	<c:otherwise>
-		content += "<div class='twap'> <img class='user_pic' src=" + imgUrl + "> <div class='twapStuff'> <span class='user_name'>${twap.user.name}</span> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> </div></div><br>"
+		content += "<div class='twap'> <img class='user_pic' src=" + imgUrl + "> <div class='twapStuff'> <span class='user_name'>${twap.user.name}</span> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> </div></div>"
 	</c:otherwise>
 	</c:choose>
 	
