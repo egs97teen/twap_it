@@ -35,7 +35,7 @@ public class SearchController {
 	@RequestMapping("/searchMarker")
 	public List<Object[]> searchForMarker(@RequestParam("lat") double lat, @RequestParam("lng") double lng) {
 		List<Object[]> markerTwap = twapService.findMarkerInfo(lat, lng);
-		
+
 		return markerTwap;
 	}
 }
