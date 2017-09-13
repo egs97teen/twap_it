@@ -107,6 +107,10 @@
 					<p>${user.email}</p>
 				</div>
 			</div>
+			<!-- IF SELF, EDIT PERSONAL INFO/PIC -->
+			<c:if test="${self}">
+				
+			</c:if>
 			<!-- NOT SELF&NOT FRIENDS YET, SHOW THIS BUTTON -->
 			<c:if test="${!self}">
 				<div id="friendStatus">

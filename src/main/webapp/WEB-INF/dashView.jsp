@@ -209,6 +209,7 @@
 			<!-- TWAP FEED -->
 			<div id="twapFeed">
 			</div>
+			<a href="/dashboard" id="resetFeed">RESET</a>
 		</div>
 	</div>
 </div>
@@ -283,6 +284,7 @@
 <script>
 
 <!-- PARSE TWAP CONTENT FOR HASHTAGS AND CREATE LINKS -->
+
 var content = "";
 
 <c:forEach var="twap" items="${twaps}">
@@ -298,27 +300,18 @@ var content = "";
 	</c:choose>
 	<c:choose>
 	<c:when test="${twap.user.id == currentUser.id}">
-		content += "<div class='twap'> <img class='user_pic' src=" + imgUrl + "> <div class='twapStuff'> <span class='user_name'>${twap.user.name}</span> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> <a class='twapDel' href='/delete/${twap.id}'>delete</a> </div></div><br>"
+		content += "<div class='twap'> <img class='user_pic' src=" + imgUrl + "> <div class='twapStuff'> <a class='user_name' href='/user/${twap.user.id}'>${twap.user.name}</a> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> <a class='twapDel' href='/delete/${twap.id}'>delete</a> </div></div>"
 	</c:when>
 	<c:otherwise>
-		content += "<div class='twap'> <img class='user_pic' src=" + imgUrl + "> <div class='twapStuff'> <span class='user_name'>${twap.user.name}</span> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> </div></div><br>"
+		content += "<div class='twap'> <img class='user_pic' src=" + imgUrl + "> <div class='twapStuff'> <a class='user_name' href='/user/${twap.user.id}'>${twap.user.name}</a> <p class='time'><fmt:formatDate type='date' dateStyle='short' value='${twap.createdAt}'/></p> <p class='twapText'>" + twapContent + "</p> </div></div>"
 	</c:otherwise>
 	</c:choose>
-	
-/* <div class="twap">
-	<img class="user_pic" src="${twap.user.imgUrl}">
-	<div class="twapStuff">
-		<span class="user_name">${twap.user.name}</span> <p class="time"><fmt:formatDate type="date" dateStyle="short" value="${twap.createdAt}"/></p>
-		<p class="twapText">${twap.content}</p>
-		<c:if test="${self}">
-			<a class="twapDel" href="/delete/${twap.id}">delete</a>
-		</c:if>
-	</div>
-</div>
-<hr> */
+
 </c:forEach>
 
 $('#twapFeed').html(content);
+
+$('#resetFeed').hide();
 
 <!-- WHEN CLICKING ON HASHTAGS -->
 $('.hash_tag').click(function(event) {
@@ -337,7 +330,10 @@ $('.hash_tag').click(function(event) {
 				twaps[i].style.display="none";
 			} 
 		}
+	
+	$('#resetFeed').show();
 })
+
 
 <!-- WHEN CLICKING ON NOTIFICATIONS -->
 $('#invites').hide();
