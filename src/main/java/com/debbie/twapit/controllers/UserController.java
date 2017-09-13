@@ -203,5 +203,12 @@ public class UserController {
 			return "redirect:/reroute";
 		}
 	}	
+	
+	@RequestMapping("/about")
+	public String aboutPage(Principal principal, Model model) {
+		User currentUser = userService.findByEmail(principal.getName());
+		model.addAttribute("currentUser", currentUser);
+		return "aboutView";
+	}
 
 }
