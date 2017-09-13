@@ -1,4 +1,9 @@
-body, html {
+
+.icon {
+	height: 15px;
+}
+
+ body, html {
     height: 100%;
     width: 100%;
     background-color: #333232;
@@ -6,7 +11,6 @@ body, html {
     background-repeat: no-repeat;
     background-size: cover;
     font-family: Varela Round;
-    overflow: hidden;
 }
 
 html {
@@ -23,7 +27,11 @@ html {
 }
 
 a {
-	color: #E3E4DB;
+	color: #CBB8A9;
+}
+
+a:hover {
+	color: #88958D;
 }
 
 .g:hover {
@@ -85,94 +93,45 @@ a {
 .user_name {
 	margin: 0px;
 	font-weight: bold;
-	color: #88958D;
+	color: #000;
 }
-
 .user_email {
 	margin: 0px;
 	font-weight: 100;
 	color: #CBB8A9;
 }
 
-#twapIt {
+#viewButtons {
 	text-align: center;
-	padding-right: 1vw;
-}
-
-/* for WHATS GOIN ON text */
-span {
-	color: #F1F5F4;
-	font-weight: bolder;
-	font-size: 17px;
-}
-
-#twapButton {
-	margin-top: 3px;
-	border: none;
-	color: #CBB8A9;
-	font-size: 16px;
-	background-color: transparent;
-}
-
-#twapButton:hover {
-	color: #88958D;
-}
-
-#note {
-	color: #CCCCCC;
-	font-style: italic;
-	margin-bottom: 4px;
-}
-
-#map {
-	border: 1px solid #F1F3F4;
-	border-radius: 3px;
-}
-
-#twapFeed {
-	border: 1px solid #CCCCCC;
-	border-radius: 3px;
-	height: 80vh;
-	width: 100%;
 	margin-top: 4vh;
+}
+
+button {
+	background-color: #CBB8A9;
+	color: #F1F5F4;
+	border-radius: 5px;
+	border: none;
+	padding: 7px 12px 7px 12px;
+}
+
+button:hover {
+	background-color: #88958D;
+}
+
+#twaps_search, #users_search {
+	width: 300px;
+	margin: auto;
+}
+
+h3 {
+	color: #F1F5F4;
+	font-weight: bold;
+	text-align: center;
+	margin: 3px;
+}
+
+#twaps_table, #users_table {
 	background-color: #F1F5F4;
-	overflow: auto;
 }
 
-::-webkit-scrollbar {
-	width: 0px;
-	background: transparent;
-}
 
-.twapStuff {
-	display: inline-block;
-	vertical-align: middle;
-	width: 80%;
-}
-
-.time {
-	display: inline-block;
-	margin: 0px;
-}
-
-.twapText {
-	margin: 0px;
-	word-break: break-all;
-}
-
-p.twapText {
-    word-wrap: break-word;
-    word-break: break-all;
-}
-
-.twapDel:hover {
-	color: red;
-}
-
-.hash_tag {
-	color: #CBB8A9;
-}
-
-.hash_tag:hover {
-	color: #CCCCCC;
-}

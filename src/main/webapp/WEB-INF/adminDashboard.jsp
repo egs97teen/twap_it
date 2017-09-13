@@ -11,16 +11,8 @@
 	<title>Twap It | Admin</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/user.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/admin.css"/>
 	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-	<style>
-		body{
-			color:white;
-		}
-		img{
-			height: 15px;
-		}
-	</style>
 </head>
 <body>
 
@@ -38,28 +30,36 @@
 	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 		<div class="navbar-nav">
 			<a class="nav-item nav-link" href="/dashboard">Home</a>
-			<a class="nav-item nav-link" href="#">Notifications <span class="badge badge-secondary">#</span></a>
-			<a class="nav-item nav-link" href="#">Messages <span class="badge badge-secondary">#</span></a>
+			<a id="notifications" class="nav-item nav-link notif" href="#">Notifications 
+					<c:if test="${invitations != null}">
+					<span class="badge badge-secondary">${invitations.size()}</span>
+					</c:if>
+			</a>
+			<a class="nav-item nav-link" href="#">Messages</a>
 		</div>
 	</div>
 	
 	<div class="collapse navbar-collapse">
+	
+	<ul class="navbar-nav ml-auto nav-flex icons">
+	
+	<!-- SEARCH USERS -->
 	<form class="form-inline">
 		<div class="input-group">
-			<span class="input-group-addon" id="basic-addon1">@</span>
-			<input type="text" class="form-control" placeholder="Search users..." aria-label="name" aria-describedby="basic-addon1">
+			<span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
+			<input type="text" id="searchUsers" class="form-control" placeholder="Search users" aria-label="tag" aria-describedby="basic-addon1">
 		</div>
 	</form>
 	
-	<ul class="navbar-nav ml-auto nav-flex icons">
+	<!-- PROFILE PIC DROPDOWN -->
 		<li class="nav-item avatar dropdown">
 			<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				<c:choose>
 					<c:when test="${currentUser.imgUrl.equals('')}">
-						<img id="profPic" src="/img/cat_profile-512.png">
+						<img class="profPic" src="/img/cat_profile-512.png">
 					</c:when>
 					<c:otherwise>
-						<img id="profPic" src="${currentUser.imgUrl}" style="border-radius:50%">
+						<img class="profPic" src="${currentUser.imgUrl}" style="border-radius:50%">
 					</c:otherwise>
 				</c:choose>
 			</a>
@@ -75,16 +75,32 @@
 </div>
 </nav>
 
+<!-- SEARCH RESULTS DIV -->
+<div id="results"></div>
+
+<!--  IF SELF, SHOW INVITATIONS UNDER NOTIFICATIONS BAR -->
+<div id="invites">
+	<c:forEach var="invite" items="${invitations}">
+		<div class="inv">
+			<img class="user_pic" src="${invite.imgUrl}">
+			<div class="text">
+				<p class="user_name">${invite.name}</p>
+				<a class="g" href="/accept/${invite.id}">Accept</a> • <a class="r" href="/reject/${invite.id}">Reject</a>
+			</div>
+		</div>
+	</c:forEach>
+</div>
+
 <!-- header -->
 <div id="viewButtons">
 	<button id="twaps_button">Twaps</button>
-	<button id="users_button">Users</button>		
+	<button id="users_button">Users</button>
 </div>
 
 <!-- Twap List -->
 <div id="twap_list">
 	<h3>Twaps</h3>
-	<input type="text" id="twaps_search" onkeyup="twapsSearch()" placeholder="Search Twaps" />
+	<input type="text" id="twaps_search" class="form-control" onkeyup="twapsSearch()" placeholder="Search Twaps" />
 	
 	<hr>
 		
@@ -103,7 +119,7 @@
 						<tr>
 							<td class="w-45">${twap.content}</td>
 							<td class="w-25">${twap.user.name}</td>
-							<td class="w-5"><a href="/delete/${twap.id}"><img class="icon" src="/img/trash-512.png"></a></td>
+							<td class="w-5"><a class="r" href="/delete/${twap.id}"><img class="icon" src="/img/trash-512.png">delete</a></td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -111,10 +127,14 @@
 		</div>
 	</div>
 </div>
+
 <!-- User List -->
 <div id="users_display">
 	<h3>Users</h3>
-	<input type="text" id="users_search" onkeyup="usersSearch()" placeholder="Search Users" />
+	<input type="text" id="users_search" class="form-control" onkeyup="usersSearch()" placeholder="Search Users" />
+
+	<hr>
+	
 	<div class="container-fluid" style="width:80vw;margin:auto">
 
 		<div class="table-responsive">
@@ -140,7 +160,7 @@
 							<tr>
 								<td><a href="/user/${user.id}">${user.name}</a></td>
 								<td>${user.email}</td>
-								<td><a href="/admin/promote/${user.id}"><i class="fa fa-user-plus prefix grey-text"></i>Make Admin</a> | <a href="/admin/delete/${user.id}"><i class="fa fa-user-times prefix grey-text"></i>Delete User</a></td>
+								<td><a href="/admin/promote/${user.id}"><i class="fa fa-user-plus prefix grey-text"></i>Make Admin</a> | <a class="r" href="/admin/delete/${user.id}"><i class="fa fa-user-times prefix grey-text"></i>Delete User</a></td>
 							</tr>
 							</c:if>
 						</c:if>
