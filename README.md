@@ -7,6 +7,6 @@
 
 The database is designed using **MySQL**, in order to support relationships between user models and 'Twap' models, as well as relationships between users. Combined use of **AJAX**, **jQuery**, and queries run using **JPQL**, allow the site to have user search functionality and social media attributes.
 
-Through use of **Google Maps Geolocation** and **Geocoding** services, users can choose to write a 'Twap', which will also register the user's current location, or a location of their choosing on the map. All 'Twaps' are marked on the map upon loading, and are clustered according to location if multiple 'Twaps' are registered in the same area. Users have the option to filter the 'Twaps' they wish to see on the map by a specific hashtag.
+Through use of **Google Maps Geolocation** and **Geocoding** services, users can choose to write a 'Twap,' which will also register the user's current location, or a location of their choosing on the map. All 'Twaps' are marked on the map upon loading, and are clustered according to location if multiple 'Twaps' are registered in the same area. Users have the option to filter the 'Twaps' they wish to see on the map by a specific hashtag.
 
-**Spring Security** enables users to also be registered as either administrators or general users. Administrators have the capability of initializing various CRUD operations, such as deleting 'Twaps' or users. Users are only able to delete their own tweets.
+**Spring Security** enables users to also be registered as either administrators or general users. Administrators have the capability of initializing various CRUD operations, such as deleting 'Twaps' or users. Users are only able to delete their own 'Twaps.'
